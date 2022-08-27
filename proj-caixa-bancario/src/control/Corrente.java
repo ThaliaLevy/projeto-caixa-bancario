@@ -40,9 +40,9 @@ public class Corrente extends Conta {
 	public void cadastrar(Scanner ler) {
 		System.out.print("Digite o nome do titular da Conta Corrente: ");
 		setTitular(ler.nextLine());
-		System.out.print("Digite o número da Agência da Conta Corrente: ");
+		System.out.print("Digite o nï¿½mero da Agï¿½ncia da Conta Corrente: ");
 		setAgencia(ler.nextLine());
-		System.out.print("Digite o número da Conta Corrente: ");
+		System.out.print("Digite o nï¿½mero da Conta Corrente: ");
 		setNrConta(ler.nextLine());
 		System.out.print("Digite o saldo da Conta Corrente: ");
 		setSaldo(Double.parseDouble(ler.nextLine()));
@@ -82,7 +82,7 @@ public class Corrente extends Conta {
 
 	public String[] localizarCorrente(String caminhoCorrente, Scanner ler) {
 		try {
-			System.out.println("Digite o número de cadastramento da Conta a ser localizada: ");
+			System.out.println("Digite o nï¿½mero de cadastramento da Conta a ser localizada: ");
 			String nrLocalizacao = ler.nextLine();
 			BufferedReader ler2 = new BufferedReader(new FileReader(caminhoCorrente));
 
@@ -99,7 +99,7 @@ public class Corrente extends Conta {
 					return vetor;
 				}
 			}
-			System.out.println("Conta Corrente não localizada. Cadastre!");
+			System.out.println("Conta Corrente nao localizada!");
 			ler2.close();
 			return null;
 
@@ -114,9 +114,9 @@ public class Corrente extends Conta {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
 			String linha;
-			System.out.println("Imprimindo relação de Contas Correntes salvas...");
+			System.out.println("Imprimindo relaï¿½ï¿½o de Contas Correntes salvas...");
 			System.out.println(
-					"Informações dispostas em: Nro Cadastro, Titular, Nro Agência, Nro Conta, Limite, Saldo.\n");
+					"Informaï¿½ï¿½es dispostas em: Nro Cadastro, Titular, Nro Agï¿½ncia, Nro Conta, Limite, Saldo.\n");
 
 			while (br.ready()) {
 				linha = br.readLine();
@@ -158,7 +158,7 @@ public class Corrente extends Conta {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
 			BufferedWriter bw = new BufferedWriter(new FileWriter(i));
 
-			System.out.println("Digite o número de cadastramento da Conta a ser modificada: ");
+			System.out.println("Digite o nï¿½mero de cadastramento da Conta a ser modificada: ");
 			String nrLocalizacao = ler.nextLine();
 			String[] vetor;
 
@@ -206,7 +206,7 @@ public class Corrente extends Conta {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
 			BufferedWriter bw = new BufferedWriter(new FileWriter(i));
 
-			System.out.println("Digite o número de cadastramento da Conta de onde será sacado: ");
+			System.out.println("Digite o nï¿½mero de cadastramento da Conta de onde serï¿½ sacado: ");
 			String nrLocalizacao = ler.nextLine();
 			String[] vetor;
 
@@ -258,9 +258,9 @@ public class Corrente extends Conta {
 		if (i <= auxSal + auxLim && i > 0) {
 			auxSal = auxSal - i;
 			setSaldo(auxSal);
-			System.out.println("O novo saldo da conta é: " + auxSal);
+			System.out.println("O novo saldo da conta ï¿½: " + auxSal);
 		} else {
-			System.out.println("Comando inválido.");
+			System.out.println("Comando invï¿½lido.");
 		}
 	}
 
@@ -273,7 +273,7 @@ public class Corrente extends Conta {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
 			BufferedWriter bw = new BufferedWriter(new FileWriter(i));
 
-			System.out.println("Digite o número de cadastramento da Conta para onde será depositado: ");
+			System.out.println("Digite o nï¿½mero de cadastramento da Conta para onde serï¿½ depositado: ");
 			String nrLocalizacao = ler.nextLine();
 			String[] vetor;
 
@@ -321,13 +321,13 @@ public class Corrente extends Conta {
 		double i = Double.parseDouble(valorDepositado);
 		auxSal = auxSal + i;
 		setSaldo(auxSal);
-		System.out.println("O novo saldo da conta é: " + auxSal);
+		System.out.println("O novo saldo da conta ï¿½: " + auxSal);
 	}
 
 	public void verificarSaldo(String caminhoCorrente, Scanner ler) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
-			System.out.println("Digite o número de cadastramento da Conta que deseja ver o saldo: ");
+			System.out.println("Digite o nï¿½mero de cadastramento da Conta que deseja ver o saldo: ");
 			String nrLocalizacao = ler.nextLine();
 			String[] vetor;
 
@@ -338,7 +338,7 @@ public class Corrente extends Conta {
 				vetor = m.split("#");
 
 				if (vetor[0].equalsIgnoreCase(nrLocalizacao)) {
-					System.out.println("Atualmente o saldo disponível na Conta é de: " + vetor[5] + "\n");
+					System.out.println("Atualmente o saldo disponï¿½vel na Conta ï¿½ de: " + vetor[5] + "\n");
 					break;
 				}
 			}
@@ -357,7 +357,7 @@ public class Corrente extends Conta {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
 			BufferedWriter bw = new BufferedWriter(new FileWriter(i));
 
-			System.out.println("Digite o número de cadastramento da Conta que deseja excluir: ");
+			System.out.println("Digite o nï¿½mero de cadastramento da Conta que deseja excluir: ");
 			String nrLocalizacao = ler.nextLine();
 			String[] vetor;
 
@@ -368,7 +368,7 @@ public class Corrente extends Conta {
 				vetor = m.split("#");
 
 				if (vetor[0].equalsIgnoreCase(nrLocalizacao)) {
-					System.out.println("Conta Corrente excluída com sucesso!");
+					System.out.println("Conta Corrente excluï¿½da com sucesso!");
 				} else {
 					bw.write(linha);
 					bw.newLine();
@@ -396,7 +396,7 @@ public class Corrente extends Conta {
 	public void excluir(String caminhoCorrente, Scanner ler) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
-			System.out.println("Digite o número de cadastramento da Conta que deseja excluir: ");
+			System.out.println("Digite o nï¿½mero de cadastramento da Conta que deseja excluir: ");
 			String nrLocalizacao = ler.nextLine();
 			String[] vetor;
 
@@ -448,7 +448,7 @@ public class Corrente extends Conta {
 					}
 				}
 			}
-			System.out.println("A Conta Corrente que possui o saldo mais alto é: " + k);
+			System.out.println("A Conta Corrente que possui o saldo mais alto ï¿½: " + k);
 
 			br.close();
 
@@ -474,7 +474,7 @@ public class Corrente extends Conta {
 				somaC = somaC + auxVet;
 			}
 			setSomaC(somaC);
-			System.out.println("O total das Correntes é: " + somaC);
+			System.out.println("O total das Correntes ï¿½: " + somaC);
 			br.close();
 
 		} catch (Exception e) {

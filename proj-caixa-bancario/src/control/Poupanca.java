@@ -39,15 +39,15 @@ public class Poupanca extends Conta {
 	}
 
 	public void cadastrar(Scanner ler) {
-		System.out.print("Digite o nome do titular da Conta Poupança: ");
+		System.out.print("Digite o nome do titular da Conta Poupanï¿½a: ");
 		setTitular(ler.nextLine());
-		System.out.print("Digite o número da agência da Conta Poupança: ");
+		System.out.print("Digite o nï¿½mero da agï¿½ncia da Conta Poupanï¿½a: ");
 		setAgencia(ler.nextLine());
-		System.out.print("Digite o número da Conta Poupança: ");
+		System.out.print("Digite o nï¿½mero da Conta Poupanï¿½a: ");
 		setNrConta(ler.nextLine());
-		System.out.print("Digite o saldo da Conta Poupança: ");
+		System.out.print("Digite o saldo da Conta Poupanï¿½a: ");
 		setSaldo(Double.parseDouble(ler.nextLine()));
-		System.out.print("Digite o valor do rendimento da Conta Poupança: ");
+		System.out.print("Digite o valor do rendimento da Conta Poupanï¿½a: ");
 		setRendimento(Double.parseDouble(ler.nextLine()));
 	}
 
@@ -83,7 +83,7 @@ public class Poupanca extends Conta {
 
 	public String[] localizarPoupanca(String caminhoPoupanca, Scanner ler) {
 		try {
-			System.out.println("Digite o número de cadastramento da Conta a ser localizada: ");
+			System.out.println("Digite o nï¿½mero de cadastramento da Conta a ser localizada: ");
 			String nrLocalizacao = ler.nextLine();
 			BufferedReader ler2 = new BufferedReader(new FileReader(caminhoPoupanca));
 
@@ -95,12 +95,12 @@ public class Poupanca extends Conta {
 				vetor = ler2.readLine().split(" ");
 
 				if (vetor[0].equalsIgnoreCase(nrLocalizacao)) {
-					System.out.println("Conta Poupança localizada no banco de cadastros!");
+					System.out.println("Conta Poupanca localizada no banco de cadastros!");
 					ler2.close();
 					return vetor;
 				}
 			}
-			System.out.println("Conta Poupança não localizada. Cadastre!");
+			System.out.println("Conta Poupanca nao localizada!");
 			ler2.close();
 			return null;
 
@@ -115,9 +115,9 @@ public class Poupanca extends Conta {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoPoupanca));
 			String linha;
-			System.out.println("Imprimindo relação de Contas Poupanças salvas...");
+			System.out.println("Imprimindo relaï¿½ï¿½o de Contas Poupanï¿½as salvas...");
 			System.out.println(
-					"Informações dispostas em: Nro Cadastro, Titular, Nro Agência, Nro Conta, Limite, Saldo.\n");
+					"Informaï¿½ï¿½es dispostas em: Nro Cadastro, Titular, Nro Agï¿½ncia, Nro Conta, Limite, Saldo.\n");
 
 			while (br.ready()) {
 				linha = br.readLine();
@@ -142,7 +142,7 @@ public class Poupanca extends Conta {
 					cont++;
 				}
 			}
-			System.out.println(cont + " Contas Poupanças cadastradas.");
+			System.out.println(cont + " Contas Poupanï¿½as cadastradas.");
 			br.close();
 		} catch (Exception e) {
 			System.out.println("Erro no programa.");
@@ -158,7 +158,7 @@ public class Poupanca extends Conta {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoPoupanca));
 			BufferedWriter bw = new BufferedWriter(new FileWriter(i));
 
-			System.out.println("Digite o número de cadastramento da Conta a ser modificada: ");
+			System.out.println("Digite o nï¿½mero de cadastramento da Conta a ser modificada: ");
 			String nrLocalizacao = ler.nextLine();
 			String[] vetor;
 
@@ -206,7 +206,7 @@ public class Poupanca extends Conta {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoPoupanca));
 			BufferedWriter bw = new BufferedWriter(new FileWriter(i));
 
-			System.out.println("Digite o número de cadastramento da Conta de onde será sacado: ");
+			System.out.println("Digite o nï¿½mero de cadastramento da Conta de onde serï¿½ sacado: ");
 			String nrLocalizacao = ler.nextLine();
 			String[] vetor;
 
@@ -253,7 +253,7 @@ public class Poupanca extends Conta {
 
 		auxSal = auxSal + auxSal * auxRend / 100;
 		setSaldo(auxSal);
-		System.out.println("Novo saldo com o rendimento aplicado é: " + auxSal);
+		System.out.println("Novo saldo com o rendimento aplicado ï¿½: " + auxSal);
 	}
 
 	public void aplicarRendimento(String caminhoPoupanca, Scanner ler) {
@@ -265,7 +265,7 @@ public class Poupanca extends Conta {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoPoupanca));
 			BufferedWriter bw = new BufferedWriter(new FileWriter(i));
 
-			System.out.println("Digite o número de cadastramento da Conta que deseja aplicar rendimento: ");
+			System.out.println("Digite o nï¿½mero de cadastramento da Conta que deseja aplicar rendimento: ");
 			String nrLocalizacao = ler.nextLine();
 			String[] vetor;
 
@@ -316,9 +316,9 @@ public class Poupanca extends Conta {
 		if (i <= auxSal && i > 0) {
 			auxSal = auxSal - i;
 			setSaldo(auxSal);
-			System.out.println("O novo saldo da conta é: " + auxSal);
+			System.out.println("O novo saldo da conta ï¿½: " + auxSal);
 		} else {
-			System.out.println("Comando inválido.");
+			System.out.println("Comando invï¿½lido.");
 		}
 	}
 
@@ -331,7 +331,7 @@ public class Poupanca extends Conta {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoPoupanca));
 			BufferedWriter bw = new BufferedWriter(new FileWriter(i));
 
-			System.out.println("Digite o número de cadastramento da Conta para onde será depositado: ");
+			System.out.println("Digite o nï¿½mero de cadastramento da Conta para onde serï¿½ depositado: ");
 			String nrLocalizacao = ler.nextLine();
 			String[] vetor;
 
@@ -379,13 +379,13 @@ public class Poupanca extends Conta {
 		double i = Double.parseDouble(valorDepositado);
 		auxSal = auxSal + i;
 		setSaldo(auxSal);
-		System.out.println("O novo saldo da conta é: " + auxSal);
+		System.out.println("O novo saldo da conta ï¿½: " + auxSal);
 	}
 
 	public void verificarSaldo(String caminhoPoupanca, Scanner ler) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoPoupanca));
-			System.out.println("Digite o número de cadastramento da Conta que deseja ver o saldo: ");
+			System.out.println("Digite o nï¿½mero de cadastramento da Conta que deseja ver o saldo: ");
 			String nrLocalizacao = ler.nextLine();
 			String[] vetor;
 
@@ -396,7 +396,7 @@ public class Poupanca extends Conta {
 				vetor = m.split("#");
 
 				if (vetor[0].equalsIgnoreCase(nrLocalizacao)) {
-					System.out.println("Atualmente o saldo disponível na Conta é de: " + vetor[5] + "\n");
+					System.out.println("Atualmente o saldo disponï¿½vel na Conta ï¿½ de: " + vetor[5] + "\n");
 					break;
 				}
 			}
@@ -415,7 +415,7 @@ public class Poupanca extends Conta {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoPoupanca));
 			BufferedWriter bw = new BufferedWriter(new FileWriter(i));
 
-			System.out.println("Digite o número de cadastramento da Conta que deseja excluir: ");
+			System.out.println("Digite o nï¿½mero de cadastramento da Conta que deseja excluir: ");
 			String nrLocalizacao = ler.nextLine();
 			String[] vetor;
 
@@ -426,7 +426,7 @@ public class Poupanca extends Conta {
 				vetor = m.split("#");
 
 				if (vetor[0].equalsIgnoreCase(nrLocalizacao)) {
-					System.out.println("Conta Poupança excluída com sucesso!");
+					System.out.println("Conta Poupanï¿½a excluï¿½da com sucesso!");
 				} else {
 					bw.write(linha);
 					bw.newLine();
@@ -454,7 +454,7 @@ public class Poupanca extends Conta {
 	public void excluir(String caminhoPoupanca, Scanner ler) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoPoupanca));
-			System.out.println("Digite o número de cadastramento da Conta que deseja excluir: ");
+			System.out.println("Digite o nï¿½mero de cadastramento da Conta que deseja excluir: ");
 			String nrLocalizacao = ler.nextLine();
 			String[] vetor;
 
@@ -506,7 +506,7 @@ public class Poupanca extends Conta {
 					}
 				}
 			}
-			System.out.println("A Conta Poupança que possui o saldo mais baixo é: " + k);
+			System.out.println("A Conta Poupanï¿½a que possui o saldo mais baixo ï¿½: " + k);
 
 			br.close();
 
@@ -518,7 +518,7 @@ public class Poupanca extends Conta {
 	public void somaPoupanca(String caminhoPoupanca) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoPoupanca));
-			System.out.println("Somando saldos das Contas Poupanças, aguarde...");
+			System.out.println("Somando saldos das Contas Poupanï¿½as, aguarde...");
 			String[] vetor;
 
 			while (br.ready()) {
@@ -532,7 +532,7 @@ public class Poupanca extends Conta {
 				somaP = somaP + auxVet;
 			}
 			setSomaP(somaP);
-			System.out.println("O total das Poupanças é: " + somaP);
+			System.out.println("O total das Poupanï¿½as ï¿½: " + somaP);
 			br.close();
 
 		} catch (Exception e) {
