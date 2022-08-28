@@ -36,13 +36,24 @@ public class Corrente extends Conta {
 			e.printStackTrace();
 		}
 	}
+	
+	public void mostrarMenuOpcoesGeraisCorrente() {
+		System.out.println(" Escolha a opcao: \n==================");
+		System.out.println("1 - para cadastrar uma Conta Corrente;");
+		System.out.println("2 - para alterar informacoes/sacar/depositar/verificar saldo/localizar uma Conta Corrente;");
+		System.out.println("3 - para informar quantas Contas Correntes existem;");
+		System.out.println("4 - para listar todas as Contas Correntes existentes;");
+		System.out.println("5 - para excluir uma Conta Corrente existente;");
+		System.out.println("6 - para exibir Conta Corrente com maior saldo;");
+		System.out.println("s - para encerrar o sistema.");
+	}
 
 	public void cadastrar(Scanner ler) {
 		System.out.print("Digite o nome do titular da Conta Corrente: ");
 		setTitular(ler.nextLine());
-		System.out.print("Digite o n�mero da Ag�ncia da Conta Corrente: ");
+		System.out.print("Digite o numero da Agencia da Conta Corrente: ");
 		setAgencia(ler.nextLine());
-		System.out.print("Digite o n�mero da Conta Corrente: ");
+		System.out.print("Digite o numero da Conta Corrente: ");
 		setNrConta(ler.nextLine());
 		System.out.print("Digite o saldo da Conta Corrente: ");
 		setSaldo(Double.parseDouble(ler.nextLine()));
@@ -68,7 +79,7 @@ public class Corrente extends Conta {
 		return 0;
 	}
 
-	public void salvarCorrente(String caminhoCorrente) {
+	public void salvarCorrente(String caminhoCorrente) {	//criar retorno boolean
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoCorrente, true));
 			bw.write(lerUltimoRegistro(caminhoCorrente) + " " + getTitular() + "#" + getAgencia() + "#" + getNrConta()
@@ -78,6 +89,16 @@ public class Corrente extends Conta {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+	}
+	
+	public void mostrarMenuOpcoesAlteracaoCorrente() {
+		System.out.println(" Escolha a opcao: \n==================");
+		System.out.println("1 - para alterar informacoes da Conta Corrente;");
+		System.out.println("2 - para sacar da Conta Corrente;");
+		System.out.println("3 - para depositar na Conta Corrente;");
+		System.out.println("4 - para verificar saldo da Conta Corrente;");
+		System.out.println("5 - para verificar se uma Conta Corrente esta cadastrada;");
+		System.out.println("s - para encerrar o sistema.");
 	}
 
 	public String[] localizarCorrente(String caminhoCorrente, Scanner ler) {

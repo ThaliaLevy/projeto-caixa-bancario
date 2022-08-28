@@ -15,37 +15,22 @@ public class Principal {
 		Scanner ler = new Scanner(System.in);
 
 		do {
-			System.out.println("\n Menu \n======");
-			System.out.println(" Escolha a opcao: \n==================");
-			System.out.println("1 - para acessar opcoes para Conta Corrente;");
-			System.out.println("2 - para acessar opcoes para Conta Poupanca;");
-			System.out.println("3 - para verificar a soma do montante deste Banco.");
-			System.out.println("s - para encerrar o sistema.");
-
+			mostrarMenuOpcoesIniciais();
 			op = ler.nextLine();
 
 			switch (op) {
 			case "1": {
 				Corrente cc = new Corrente();
 				cc.verificarArquivo(caminhoCorrente);
-
+				System.out.println("Carregando opcoes para Conta Corrente. Aguarde...\n");
+				
 				do {
-					System.out.println("Carregando opcoes para Conta Corrente. Aguarde...\n");
-					System.out.println(" Escolha a opcao: \n==================");
-					System.out.println("1 - para cadastrar uma Conta Corrente;");
-					System.out.println(
-							"2 - para alterar informacoes/sacar/depositar/verificar saldo/localizar uma Conta Corrente;");
-					System.out.println("3 - para informar quantas Contas Correntes existem;");
-					System.out.println("4 - para listar todas as Contas Correntes existentes;");
-					System.out.println("5 - para excluir uma Conta Corrente existente;");
-					System.out.println("6 - para exibir Conta Corrente com maior saldo;");
-					System.out.println("s - para encerrar o sistema.");
-
+					cc.mostrarMenuOpcoesGeraisCorrente();
 					op = ler.nextLine();
 
 					switch (op) {
 					case "1": {
-						System.out.println("Iniciando sessao de cadastramento para Conta Corrente. Aguarde...\n");
+						System.out.println("Iniciando sessao de cadastro de Conta Corrente. Aguarde...\n");
 						cc.cadastrar(ler);
 						cc.salvarCorrente(caminhoCorrente);
 
@@ -54,14 +39,7 @@ public class Principal {
 					}
 					case "2": {
 						do {
-							System.out.println(" Escolha a opcao: \n==================");
-							System.out.println("1 - para alterar informacoes da Conta Corrente;");
-							System.out.println("2 - para sacar da Conta Corrente;");
-							System.out.println("3 - para depositar na Conta Corrente;");
-							System.out.println("4 - para verificar saldo da Conta Corrente;");
-							System.out.println("5 - para verificar se uma Conta Corrente esta cadastrada;");
-							System.out.println("s - para encerrar o sistema.");
-
+							cc.mostrarMenuOpcoesAlteracaoCorrente();
 							op = ler.nextLine();
 
 							switch (op) {
@@ -133,19 +111,7 @@ public class Principal {
 				cp.verificarArquivo(caminhoPoupanca);
 
 				do {
-
-					System.out.println("Carregando opcoes para Conta Poupanca. Aguarde...\n");
-					System.out.println(" Escolha a opcao: \n==================");
-					System.out.println("1 - para cadastrar uma Conta Poupanca;");
-					System.out.println(
-							"2 - para alterar informacoes/sacar/depositar/verificar saldo/localizar uma Conta Poupanca;");
-					System.out.println("3 - para informar quantas Contas Poupancas existem;");
-					System.out.println("4 - para listar todas as Contas Poupancas existentes;");
-					System.out.println("5 - para excluir uma Conta Poupanca existente;");
-					System.out.println("6 - para exibir Conta Poupanca com menor saldo;");
-					System.out.println("7 - para aplicar rendimento na Conta Poupanca.");
-					System.out.println("s - para encerrar o sistema.");
-
+					cp.mostrarMenuOpcoesGeraisPoupanca();
 					op = ler.nextLine();
 
 					switch (op) {
@@ -160,14 +126,7 @@ public class Principal {
 					}
 					case "2": {
 						do {
-							System.out.println(" Escolha a opcao: \n==================");
-							System.out.println("1 - para alterar informacoes da Conta Poupanca;");
-							System.out.println("2 - para sacar da Conta Poupanca;");
-							System.out.println("3 - para depositar na Conta Poupanca;");
-							System.out.println("4 - para verificar saldo da Conta Poupanca.");
-							System.out.println("5 - para verificar se uma Conta Poupanca esta cadastrada.");
-							System.out.println("s - para encerrar o sistema.");
-
+							cp.mostrarMenuOpcoesAlteracaoPoupanca();
 							op = ler.nextLine();
 
 							switch (op) {
@@ -259,5 +218,14 @@ public class Principal {
 			}
 		} while (!(op.equalsIgnoreCase("s") | op.equals("S")));
 		System.out.println("Fim do programa.\n");
+	}
+	
+	public static void mostrarMenuOpcoesIniciais() {
+		System.out.println("\n Menu \n======");
+		System.out.println(" Escolha a opcao: \n==================");
+		System.out.println("1 - para acessar opcoes para Conta Corrente;");
+		System.out.println("2 - para acessar opcoes para Conta Poupanca;");
+		System.out.println("3 - para verificar a soma do montante deste Banco.");
+		System.out.println("s - para encerrar o sistema.");
 	}
 }

@@ -37,6 +37,19 @@ public class Poupanca extends Conta {
 			e.printStackTrace();
 		}
 	}
+	
+	public void mostrarMenuOpcoesGeraisPoupanca() {
+		System.out.println("Carregando opcoes para Conta Poupanca. Aguarde...\n");
+		System.out.println(" Escolha a opcao: \n==================");
+		System.out.println("1 - para cadastrar uma Conta Poupanca;");
+		System.out.println("2 - para alterar informacoes/sacar/depositar/verificar saldo/localizar uma Conta Poupanca;");
+		System.out.println("3 - para informar quantas Contas Poupancas existem;");
+		System.out.println("4 - para listar todas as Contas Poupancas existentes;");
+		System.out.println("5 - para excluir uma Conta Poupanca existente;");
+		System.out.println("6 - para exibir Conta Poupanca com menor saldo;");
+		System.out.println("7 - para aplicar rendimento na Conta Poupanca.");
+		System.out.println("s - para encerrar o sistema.");
+	}
 
 	public void cadastrar(Scanner ler) {
 		System.out.print("Digite o nome do titular da Conta Poupan�a: ");
@@ -81,6 +94,16 @@ public class Poupanca extends Conta {
 		}
 	}
 
+	public void mostrarMenuOpcoesAlteracaoPoupanca() {
+		System.out.println(" Escolha a opcao: \n==================");
+		System.out.println("1 - para alterar informacoes da Conta Poupanca;");
+		System.out.println("2 - para sacar da Conta Poupanca;");
+		System.out.println("3 - para depositar na Conta Poupanca;");
+		System.out.println("4 - para verificar saldo da Conta Poupanca.");
+		System.out.println("5 - para verificar se uma Conta Poupanca esta cadastrada.");
+		System.out.println("s - para encerrar o sistema.");
+	}
+	
 	public String[] localizarPoupanca(String caminhoPoupanca, Scanner ler) {
 		try {
 			System.out.println("Digite o n�mero de cadastramento da Conta a ser localizada: ");
