@@ -5,7 +5,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Scanner;
 
 public class Corrente extends Conta {
@@ -22,20 +21,6 @@ public class Corrente extends Conta {
 		this.setTitular(titular);
 		this.setLimite(limite);
 	}
-
-	public void verificarArquivo(String caminhoCorrente) {
-		try {
-			File f = new File(caminhoCorrente);
-			if (!f.exists()) {
-				String auxCaminho = caminhoCorrente.substring(0, caminhoCorrente.lastIndexOf("\\"));
-				File fDir = new File(auxCaminho);
-				fDir.mkdir();
-				f.createNewFile();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	public void mostrarMenuOpcoesGeraisCorrente() {
 		System.out.println(" Escolha a opcao: \n==================");
@@ -46,49 +31,6 @@ public class Corrente extends Conta {
 		System.out.println("5 - para excluir uma Conta Corrente existente;");
 		System.out.println("6 - para exibir Conta Corrente com maior saldo;");
 		System.out.println("s - para encerrar o sistema.");
-	}
-
-	public void cadastrar(Scanner ler) {
-		System.out.print("Digite o nome do titular da Conta Corrente: ");
-		setTitular(ler.nextLine());
-		System.out.print("Digite o numero da Agencia da Conta Corrente: ");
-		setAgencia(ler.nextLine());
-		System.out.print("Digite o numero da Conta Corrente: ");
-		setNrConta(ler.nextLine());
-		System.out.print("Digite o saldo da Conta Corrente: ");
-		setSaldo(Double.parseDouble(ler.nextLine()));
-		System.out.print("Digite o valor do limite da Conta Corrente: ");
-		setLimite(Double.parseDouble(ler.nextLine()));
-	}
-
-	public int lerUltimoRegistro(String caminhoCorrente) {
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
-			int i = 99;
-			String[] aux;
-			while (br.ready()) {
-				br.ready();
-				aux = br.readLine().split(" ");
-				i = Integer.parseInt(aux[0]);
-			}
-			br.close();
-			return ++i;
-		} catch (IOException e) {
-			System.out.print("Erro no programa.");
-		}
-		return 0;
-	}
-
-	public void salvarCorrente(String caminhoCorrente) {	//criar retorno boolean
-		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoCorrente, true));
-			bw.write(lerUltimoRegistro(caminhoCorrente) + " " + getTitular() + "#" + getAgencia() + "#" + getNrConta()
-					+ "#" + getLimite() + "#" + getSaldo());
-			bw.newLine();
-			bw.close();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
 	}
 	
 	public void mostrarMenuOpcoesAlteracaoCorrente() {
@@ -101,43 +43,88 @@ public class Corrente extends Conta {
 		System.out.println("s - para encerrar o sistema.");
 	}
 
-	public String[] localizarCorrente(String caminhoCorrente, Scanner ler) {
-		try {
-			System.out.println("Digite o n�mero de cadastramento da Conta a ser localizada: ");
-			String nrLocalizacao = ler.nextLine();
-			BufferedReader ler2 = new BufferedReader(new FileReader(caminhoCorrente));
+	public void cadastrarCorrente(Scanner ler) {
+		System.out.print("Digite o nome do titular da Conta Corrente: ");
+		setTitular(ler.nextLine());
+		System.out.print("Digite o numero da Agencia da Conta Corrente: ");
+		setAgencia(ler.nextLine());
+		System.out.print("Digite o numero da Conta Corrente: ");
+		setNrConta(ler.nextLine());
+		System.out.print("Digite o saldo da Conta Corrente: ");
+		setSaldo(Double.parseDouble(ler.nextLine()));
+		System.out.print("Digite o valor do limite da Conta Corrente: ");
+		setLimite(Double.parseDouble(ler.nextLine()));
+	}
 
+	public boolean salvarCorrente(String caminhoCorrente) {	
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoCorrente, true));
+			bw.write(lerUltimoRegistro(caminhoCorrente) + " " + getTitular() + "#" + getAgencia() + "#" + getNrConta()
+					+ "#" + getLimite() + "#" + getSaldo());
+			bw.newLine();
+			bw.close();
+			return true;
+		} catch (Exception e) {
+			System.out.println(e);
+			return false;
+		}
+	}
+	
+	public void atualizarCorrente(String caminhoCorrente, Scanner ler) {
+		try {
+			String novoCaminho = caminhoCorrente.replace("corrente.txt", "correnteTemporaria.txt");
+			File novoArquivo = new File(novoCaminho);
+			novoArquivo.createNewFile();
+
+			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(novoCaminho));
+
+			System.out.println("Digite o n�mero de cadastramento da Conta a ser modificada: ");
+			String numeroCadastro = ler.nextLine();
 			String[] vetor;
 
-			while (ler2.ready()) {
-				ler2.ready();
+			while (br.ready()) {
+				br.ready();
+				String linha = br.readLine();
+				vetor = linha.split(" ");
 
-				vetor = ler2.readLine().split(" ");
+				if (vetor[0].equalsIgnoreCase(numeroCadastro)) {
+					cadastrarCorrente(ler);
+					bw.write(numeroCadastro + " " + getTitular() + "#" + getAgencia() + "#" + getNrConta() + "#"
+							+ getLimite() + "#" + getSaldo());
+					bw.newLine();
 
-				if (vetor[0].equalsIgnoreCase(nrLocalizacao)) {
-					System.out.println("Conta Corrente localizada no banco de cadastros!");
-					ler2.close();
-					return vetor;
+				} else {
+					bw.write(linha);
+					bw.newLine();
 				}
 			}
-			System.out.println("Conta Corrente nao localizada!");
-			ler2.close();
-			return null;
+			br.close();
+			bw.close();
 
-		} catch (IOException e) {
+			BufferedReader braux = new BufferedReader(new FileReader(novoCaminho));
+			BufferedWriter bwaux = new BufferedWriter(new FileWriter(caminhoCorrente));
+
+			while (braux.ready()) {
+				bwaux.write(braux.readLine());
+				bwaux.newLine();
+			}
+			bwaux.close();
+			braux.close();
+			novoArquivo.delete();
+
+		} catch (Exception e) {
 			System.out.println("Erro no programa.");
 		}
-		ler.close();
-		return null;
 	}
 
 	public String[] imprimirCorrentes(String caminhoCorrente) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
 			String linha;
-			System.out.println("Imprimindo rela��o de Contas Correntes salvas...");
+			System.out.println("Imprimindo relacao de Contas Correntes salvas...");
 			System.out.println(
-					"Informa��es dispostas em: Nro Cadastro, Titular, Nro Ag�ncia, Nro Conta, Limite, Saldo.\n");
+					"Informacoes dispostas em: Nro Cadastro, Titular, Nro Agencia, Nro Conta, Limite, Saldo.\n");
 
 			while (br.ready()) {
 				linha = br.readLine();
@@ -170,54 +157,6 @@ public class Corrente extends Conta {
 
 	}
 
-	public void atualizarCorrente(String caminhoCorrente, Scanner ler) {
-		try {
-			String i = caminhoCorrente.replace("corrente.txt", "correnteTemporaria.txt");
-			File j = new File(i);
-			j.createNewFile();
-
-			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
-			BufferedWriter bw = new BufferedWriter(new FileWriter(i));
-
-			System.out.println("Digite o n�mero de cadastramento da Conta a ser modificada: ");
-			String nrLocalizacao = ler.nextLine();
-			String[] vetor;
-
-			while (br.ready()) {
-				br.ready();
-				String linha = br.readLine();
-				vetor = linha.split(" ");
-
-				if (vetor[0].equalsIgnoreCase(nrLocalizacao)) {
-					cadastrar(ler);
-					bw.write(nrLocalizacao + " " + getTitular() + "#" + getAgencia() + "#" + getNrConta() + "#"
-							+ getLimite() + "#" + getSaldo());
-					bw.newLine();
-
-				} else {
-					bw.write(linha);
-					bw.newLine();
-				}
-			}
-			br.close();
-			bw.close();
-
-			BufferedReader braux = new BufferedReader(new FileReader(i));
-			BufferedWriter bwaux = new BufferedWriter(new FileWriter(caminhoCorrente));
-
-			while (braux.ready()) {
-				bwaux.write(braux.readLine());
-				bwaux.newLine();
-			}
-			bwaux.close();
-			braux.close();
-			j.delete();
-
-		} catch (Exception e) {
-			System.out.println("Erro no programa.");
-		}
-	}
-
 	public void salvarSaque(String caminhoCorrente, Scanner ler) {
 		try {
 			String i = caminhoCorrente.replace("corrente.txt", "correnteTemporaria.txt");
@@ -228,7 +167,7 @@ public class Corrente extends Conta {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(i));
 
 			System.out.println("Digite o n�mero de cadastramento da Conta de onde ser� sacado: ");
-			String nrLocalizacao = ler.nextLine();
+			String numeroCadastro = ler.nextLine();
 			String[] vetor;
 
 			while (br.ready()) {
@@ -237,11 +176,11 @@ public class Corrente extends Conta {
 				String m = linha.replace(" ", "#");
 				vetor = m.split("#");
 
-				if (vetor[0].equalsIgnoreCase(nrLocalizacao)) {
+				if (vetor[0].equalsIgnoreCase(numeroCadastro)) {
 					String auxSaldo = vetor[5];
 					String auxLimite = vetor[4];
 					sacar(auxSaldo, auxLimite, ler);
-					bw.write(nrLocalizacao + " " + vetor[1] + "#" + vetor[2] + "#" + vetor[3] + "#" + vetor[4] + "#"
+					bw.write(numeroCadastro + " " + vetor[1] + "#" + vetor[2] + "#" + vetor[3] + "#" + vetor[4] + "#"
 							+ getSaldo());
 					bw.newLine();
 
@@ -295,7 +234,7 @@ public class Corrente extends Conta {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(i));
 
 			System.out.println("Digite o n�mero de cadastramento da Conta para onde ser� depositado: ");
-			String nrLocalizacao = ler.nextLine();
+			String numeroCadastro = ler.nextLine();
 			String[] vetor;
 
 			while (br.ready()) {
@@ -304,10 +243,10 @@ public class Corrente extends Conta {
 				String m = linha.replace(" ", "#");
 				vetor = m.split("#");
 
-				if (vetor[0].equalsIgnoreCase(nrLocalizacao)) {
+				if (vetor[0].equalsIgnoreCase(numeroCadastro)) {
 					String auxSaldo = vetor[5];
 					depositar(auxSaldo, ler);
-					bw.write(nrLocalizacao + " " + vetor[1] + "#" + vetor[2] + "#" + vetor[3] + "#" + vetor[4] + "#"
+					bw.write(numeroCadastro + " " + vetor[1] + "#" + vetor[2] + "#" + vetor[3] + "#" + vetor[4] + "#"
 							+ getSaldo());
 					bw.newLine();
 
@@ -349,7 +288,7 @@ public class Corrente extends Conta {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
 			System.out.println("Digite o n�mero de cadastramento da Conta que deseja ver o saldo: ");
-			String nrLocalizacao = ler.nextLine();
+			String numeroCadastro = ler.nextLine();
 			String[] vetor;
 
 			while (br.ready()) {
@@ -358,7 +297,7 @@ public class Corrente extends Conta {
 				String m = linha.replace(" ", "#");
 				vetor = m.split("#");
 
-				if (vetor[0].equalsIgnoreCase(nrLocalizacao)) {
+				if (vetor[0].equalsIgnoreCase(numeroCadastro)) {
 					System.out.println("Atualmente o saldo dispon�vel na Conta � de: " + vetor[5] + "\n");
 					break;
 				}
@@ -379,7 +318,7 @@ public class Corrente extends Conta {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(i));
 
 			System.out.println("Digite o n�mero de cadastramento da Conta que deseja excluir: ");
-			String nrLocalizacao = ler.nextLine();
+			String numeroCadastro = ler.nextLine();
 			String[] vetor;
 
 			while (br.ready()) {
@@ -388,7 +327,7 @@ public class Corrente extends Conta {
 				String m = linha.replace(" ", "#");
 				vetor = m.split("#");
 
-				if (vetor[0].equalsIgnoreCase(nrLocalizacao)) {
+				if (vetor[0].equalsIgnoreCase(numeroCadastro)) {
 					System.out.println("Conta Corrente exclu�da com sucesso!");
 				} else {
 					bw.write(linha);
@@ -418,7 +357,7 @@ public class Corrente extends Conta {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
 			System.out.println("Digite o n�mero de cadastramento da Conta que deseja excluir: ");
-			String nrLocalizacao = ler.nextLine();
+			String numeroCadastro = ler.nextLine();
 			String[] vetor;
 
 			while (br.ready()) {
@@ -427,7 +366,7 @@ public class Corrente extends Conta {
 				String m = linha.replace(" ", "#");
 				vetor = m.split("#");
 
-				if (vetor[0].equalsIgnoreCase(nrLocalizacao)) {
+				if (vetor[0].equalsIgnoreCase(numeroCadastro)) {
 					linha.substring(linha.indexOf(""), linha.lastIndexOf(""));
 
 					break;
@@ -445,8 +384,7 @@ public class Corrente extends Conta {
 			System.out.println("Verificando, aguarde...");
 
 			String[] vetor;
-			double i = 0;
-			double j = 0;
+			double i = 0, j = 0;
 			String k = "";
 
 			while (br.ready()) {

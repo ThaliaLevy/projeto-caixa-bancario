@@ -1,8 +1,10 @@
 package view;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
+import control.Conta;
 import control.Corrente;
 import control.Poupanca;
 
@@ -15,13 +17,14 @@ public class Principal {
 		Scanner ler = new Scanner(System.in);
 
 		do {
-			mostrarMenuOpcoesIniciais();
+			Conta c = new Conta();
+			c.mostrarMenuOpcoesIniciais();
 			op = ler.nextLine();
 
 			switch (op) {
 			case "1": {
 				Corrente cc = new Corrente();
-				cc.verificarArquivo(caminhoCorrente);
+				verificarArquivo(caminhoCorrente);
 				System.out.println("Carregando opcoes para Conta Corrente. Aguarde...\n");
 				
 				do {
@@ -31,10 +34,10 @@ public class Principal {
 					switch (op) {
 					case "1": {
 						System.out.println("Iniciando sessao de cadastro de Conta Corrente. Aguarde...\n");
-						cc.cadastrar(ler);
-						cc.salvarCorrente(caminhoCorrente);
-
-						System.out.println("\nConta Corrente cadastrada com sucesso!\n");
+						cc.cadastrarCorrente(ler);
+						String retorno = (cc.salvarCorrente(caminhoCorrente) == true) ? "\nConta Corrente cadastrada com sucesso!\n" : "\nErro. Conta não cadastrada! \n";
+						System.out.println(retorno);
+						
 						break;
 					}
 					case "2": {
@@ -60,7 +63,7 @@ public class Principal {
 								break;
 							}
 							case "5": {
-								cc.localizarCorrente(caminhoCorrente, ler);
+								c.localizarConta(caminhoCorrente, ler, "Corrente");
 								break;
 							}
 							case "s":
@@ -108,7 +111,7 @@ public class Principal {
 
 			case "2": {
 				Poupanca cp = new Poupanca();
-				cp.verificarArquivo(caminhoPoupanca);
+				verificarArquivo(caminhoPoupanca);
 
 				do {
 					cp.mostrarMenuOpcoesGeraisPoupanca();
@@ -117,11 +120,10 @@ public class Principal {
 					switch (op) {
 					case "1": {
 						System.out.println("Iniciando sessao de cadastramento para Conta Poupanca. Aguarde...\n");
-
-						cp.cadastrar(ler);
-						cp.salvarPoupanca(caminhoPoupanca);
-
-						System.out.println("\nConta Poupanca cadastrada com sucesso! \n");
+						cp.cadastrarPoupanca(ler);
+						String retorno = (cp.salvarPoupanca(caminhoPoupanca) == true) ? "\nConta Poupanca cadastrada com sucesso! \n" : "\nErro. Conta não cadastrada!\n";
+						System.out.println(retorno);
+						
 						break;
 					}
 					case "2": {
@@ -147,7 +149,7 @@ public class Principal {
 								break;
 							}
 							case "5": {
-								cp.localizarPoupanca(caminhoPoupanca, ler);
+								c.localizarConta(caminhoPoupanca, ler, "Poupanca");
 								break;
 							}
 							case "s":
@@ -220,12 +222,17 @@ public class Principal {
 		System.out.println("Fim do programa.\n");
 	}
 	
-	public static void mostrarMenuOpcoesIniciais() {
-		System.out.println("\n Menu \n======");
-		System.out.println(" Escolha a opcao: \n==================");
-		System.out.println("1 - para acessar opcoes para Conta Corrente;");
-		System.out.println("2 - para acessar opcoes para Conta Poupanca;");
-		System.out.println("3 - para verificar a soma do montante deste Banco.");
-		System.out.println("s - para encerrar o sistema.");
+	public static void verificarArquivo(String caminho) {
+		try {
+			File f = new File(caminho);
+			if (!f.exists()) {
+				String auxCaminho = caminho.substring(0, caminho.lastIndexOf("\\"));
+				File fDir = new File(auxCaminho);
+				fDir.mkdir();
+				f.createNewFile();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
