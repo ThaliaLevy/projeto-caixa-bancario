@@ -11,8 +11,8 @@ import control.Poupanca;
 public class Principal {
 	public static void main(String[] args) throws IOException {
 
-		String caminhoPoupanca = System.getProperty("user.dir") + "\\src\\exerc2526\\poupanca.txt";
-		String caminhoCorrente = System.getProperty("user.dir") + "\\src\\exerc2526\\corrente.txt";
+		String caminhoPoupanca = System.getProperty("user.dir") + "\\poupanca.txt";
+		String caminhoCorrente = System.getProperty("user.dir") + "\\corrente.txt";
 		String op = null;
 		Scanner ler = new Scanner(System.in);
 
