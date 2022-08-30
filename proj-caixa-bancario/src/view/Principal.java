@@ -13,7 +13,7 @@ public class Principal {
 
 		String caminhoPoupanca = System.getProperty("user.dir") + "\\poupanca.txt";
 		String caminhoCorrente = System.getProperty("user.dir") + "\\corrente.txt";
-		String op = null;
+		String retorno, op = null;
 		Scanner ler = new Scanner(System.in);
 
 		do {
@@ -35,7 +35,7 @@ public class Principal {
 					case "1": {
 						System.out.println("Iniciando sessao de cadastro de Conta Corrente. Aguarde...\n");
 						cc.cadastrarCorrente(ler);
-						String retorno = (cc.salvarCorrente(caminhoCorrente) == true) ? "\nConta Corrente cadastrada com sucesso!\n" : "\nErro. Conta não cadastrada! \n";
+						retorno = (cc.salvarCorrente(caminhoCorrente) == true) ? "\nConta Corrente cadastrada com sucesso!\n" : "\nErro. Conta nao cadastrada! \n";
 						System.out.println(retorno);
 						
 						break;
@@ -47,15 +47,18 @@ public class Principal {
 
 							switch (op) {
 							case "1": {
-								cc.atualizarCorrente(caminhoCorrente, ler);
+								retorno = (cc.atualizarCorrente(caminhoCorrente, ler) == true) ? "\nConta Corrente atualizada com sucesso!\n" : "\nErro. Conta nao atualizada! \n";
+								System.out.println(retorno);
 								break;
 							}
 							case "2": {
-								cc.salvarSaque(caminhoCorrente, ler);
+								retorno = (cc.salvarSaque(caminhoCorrente, ler) == true) ? "\nSaque realizado com sucesso!\n" : "\nErro. Saque nao realizado! \n";
+								System.out.println(retorno);
 								break;
 							}
 							case "3": {
-								cc.salvarDeposito(caminhoCorrente, ler);
+								retorno = (cc.salvarDeposito(caminhoCorrente, ler) == true) ? "\nDeposito realizado com sucesso!\n" : "\nErro. Deposito nao realizado! \n";
+								System.out.println(retorno);
 								break;
 							}
 							case "4": {
@@ -88,7 +91,8 @@ public class Principal {
 						break;
 					}
 					case "5": {
-						cc.excluirConta(caminhoCorrente, ler);
+						retorno = (cc.excluirConta(caminhoCorrente, ler) == true) ? "\nExclusao realizada com sucesso!\n" : "\nErro. Exclusao nao realizada! \n";
+						System.out.println(retorno);
 						break;
 					}
 					case "6": {
@@ -119,9 +123,9 @@ public class Principal {
 
 					switch (op) {
 					case "1": {
-						System.out.println("Iniciando sessao de cadastramento para Conta Poupanca. Aguarde...\n");
+						System.out.println("Iniciando sessao de cadastro para Conta Poupanca. Aguarde...\n");
 						cp.cadastrarPoupanca(ler);
-						String retorno = (cp.salvarPoupanca(caminhoPoupanca) == true) ? "\nConta Poupanca cadastrada com sucesso! \n" : "\nErro. Conta não cadastrada!\n";
+						retorno = (cp.salvarPoupanca(caminhoPoupanca) == true) ? "\nConta Poupanca cadastrada com sucesso! \n" : "\nErro. Conta nao cadastrada!\n";
 						System.out.println(retorno);
 						
 						break;
@@ -133,15 +137,18 @@ public class Principal {
 
 							switch (op) {
 							case "1": {
-								cp.atualizarPoupanca(caminhoPoupanca, ler);
+								retorno = (cp.atualizarPoupanca(caminhoPoupanca, ler) == true) ? "\nConta Poupanca atualizada com sucesso! \n" : "\nErro. Conta nao atualizada!\n";
+								System.out.println(retorno);
 								break;
 							}
 							case "2": {
-								cp.salvarSaque(caminhoPoupanca, ler);
+								retorno = (cp.salvarSaque(caminhoPoupanca, ler) == true) ? "\nSaque realizado com sucesso! \n" : "\nErro. Saque nao realizado!\n";
+								System.out.println(retorno);
 								break;
 							}
 							case "3": {
-								cp.salvarDeposito(caminhoPoupanca, ler);
+								retorno = (cp.salvarDeposito(caminhoPoupanca, ler) == true) ? "\nDeposito realizado com sucesso! \n" : "\nErro. Deposito nao realizado!\n";
+								System.out.println(retorno);
 								break;
 							}
 							case "4": {
@@ -174,7 +181,7 @@ public class Principal {
 						break;
 					}
 					case "5": {
-						cp.excluirConta(caminhoPoupanca, ler);
+						retorno = (cp.excluirConta(caminhoPoupanca, ler) == true) ? "\nExclusao realizada com sucesso! \n" : "\nErro. Exclusao nao realizada!\n";
 						break;
 					}
 					case "6": {

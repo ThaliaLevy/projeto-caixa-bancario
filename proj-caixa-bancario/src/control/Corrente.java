@@ -21,18 +21,19 @@ public class Corrente extends Conta {
 		this.setTitular(titular);
 		this.setLimite(limite);
 	}
-	
+
 	public void mostrarMenuOpcoesGeraisCorrente() {
 		System.out.println(" Escolha a opcao: \n==================");
 		System.out.println("1 - para cadastrar uma Conta Corrente;");
-		System.out.println("2 - para alterar informacoes/sacar/depositar/verificar saldo/localizar uma Conta Corrente;");
+		System.out
+				.println("2 - para alterar informacoes/sacar/depositar/verificar saldo/localizar uma Conta Corrente;");
 		System.out.println("3 - para informar quantas Contas Correntes existem;");
 		System.out.println("4 - para listar todas as Contas Correntes existentes;");
 		System.out.println("5 - para excluir uma Conta Corrente existente;");
 		System.out.println("6 - para exibir Conta Corrente com maior saldo;");
 		System.out.println("s - para encerrar o sistema.");
 	}
-	
+
 	public void mostrarMenuOpcoesAlteracaoCorrente() {
 		System.out.println(" Escolha a opcao: \n==================");
 		System.out.println("1 - para alterar informacoes da Conta Corrente;");
@@ -56,7 +57,7 @@ public class Corrente extends Conta {
 		setLimite(Double.parseDouble(ler.nextLine()));
 	}
 
-	public boolean salvarCorrente(String caminhoCorrente) {	
+	public boolean salvarCorrente(String caminhoCorrente) {
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoCorrente, true));
 			bw.write(lerUltimoRegistro(caminhoCorrente) + " " + getTitular() + "#" + getAgencia() + "#" + getNrConta()
@@ -69,8 +70,8 @@ public class Corrente extends Conta {
 			return false;
 		}
 	}
-	
-	public void atualizarCorrente(String caminhoCorrente, Scanner ler) {
+
+	public boolean atualizarCorrente(String caminhoCorrente, Scanner ler) {
 		try {
 			String novoCaminho = caminhoCorrente.replace("corrente.txt", "correnteTemporaria.txt");
 			File novoArquivo = new File(novoCaminho);
@@ -79,7 +80,7 @@ public class Corrente extends Conta {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
 			BufferedWriter bw = new BufferedWriter(new FileWriter(novoCaminho));
 
-			System.out.println("Digite o n�mero de cadastramento da Conta a ser modificada: ");
+			System.out.println("Digite o numero de cadastro da Conta a ser modificada: ");
 			String numeroCadastro = ler.nextLine();
 			String[] vetor;
 
@@ -112,9 +113,10 @@ public class Corrente extends Conta {
 			bwaux.close();
 			braux.close();
 			novoArquivo.delete();
-
+			return true;
 		} catch (Exception e) {
 			System.out.println("Erro no programa.");
+			return false;
 		}
 	}
 
@@ -157,7 +159,7 @@ public class Corrente extends Conta {
 
 	}
 
-	public void salvarSaque(String caminhoCorrente, Scanner ler) {
+	public boolean salvarSaque(String caminhoCorrente, Scanner ler) {
 		try {
 			String i = caminhoCorrente.replace("corrente.txt", "correnteTemporaria.txt");
 			File j = new File(i);
@@ -166,7 +168,7 @@ public class Corrente extends Conta {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
 			BufferedWriter bw = new BufferedWriter(new FileWriter(i));
 
-			System.out.println("Digite o n�mero de cadastramento da Conta de onde ser� sacado: ");
+			System.out.println("Digite o numero de cadastro da Conta de onde ser� sacado: ");
 			String numeroCadastro = ler.nextLine();
 			String[] vetor;
 
@@ -202,9 +204,10 @@ public class Corrente extends Conta {
 			bwaux.close();
 			braux.close();
 			j.delete();
-
+			return true;
 		} catch (Exception e) {
 			System.out.println("Erro no programa.");
+			return false;
 		}
 	}
 
@@ -224,7 +227,7 @@ public class Corrente extends Conta {
 		}
 	}
 
-	public void salvarDeposito(String caminhoCorrente, Scanner ler) {
+	public boolean salvarDeposito(String caminhoCorrente, Scanner ler) {
 		try {
 			String i = caminhoCorrente.replace("corrente.txt", "correnteTemporaria.txt");
 			File j = new File(i);
@@ -233,7 +236,7 @@ public class Corrente extends Conta {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
 			BufferedWriter bw = new BufferedWriter(new FileWriter(i));
 
-			System.out.println("Digite o n�mero de cadastramento da Conta para onde ser� depositado: ");
+			System.out.println("Digite o numero de cadastro da Conta para onde ser� depositado: ");
 			String numeroCadastro = ler.nextLine();
 			String[] vetor;
 
@@ -268,9 +271,10 @@ public class Corrente extends Conta {
 			bwaux.close();
 			braux.close();
 			j.delete();
-
+			return true;
 		} catch (Exception e) {
 			System.out.println("Erro no programa.");
+			return false;
 		}
 	}
 
@@ -281,13 +285,13 @@ public class Corrente extends Conta {
 		double i = Double.parseDouble(valorDepositado);
 		auxSal = auxSal + i;
 		setSaldo(auxSal);
-		System.out.println("O novo saldo da conta �: " + auxSal);
+		System.out.println("O novo saldo da conta eh: " + auxSal);
 	}
 
 	public void verificarSaldo(String caminhoCorrente, Scanner ler) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
-			System.out.println("Digite o n�mero de cadastramento da Conta que deseja ver o saldo: ");
+			System.out.println("Digite o numero de cadastro da Conta que deseja ver o saldo: ");
 			String numeroCadastro = ler.nextLine();
 			String[] vetor;
 
@@ -298,7 +302,7 @@ public class Corrente extends Conta {
 				vetor = m.split("#");
 
 				if (vetor[0].equalsIgnoreCase(numeroCadastro)) {
-					System.out.println("Atualmente o saldo dispon�vel na Conta � de: " + vetor[5] + "\n");
+					System.out.println("Atualmente o saldo disponivel na Conta eh de: " + vetor[5] + "\n");
 					break;
 				}
 			}
@@ -308,7 +312,7 @@ public class Corrente extends Conta {
 		}
 	}
 
-	public void excluirConta(String caminhoCorrente, Scanner ler) {
+	public boolean excluirConta(String caminhoCorrente, Scanner ler) {
 		try {
 			String i = caminhoCorrente.replace("corrente.txt", "correnteTemporaria.txt");
 			File j = new File(i);
@@ -317,7 +321,7 @@ public class Corrente extends Conta {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
 			BufferedWriter bw = new BufferedWriter(new FileWriter(i));
 
-			System.out.println("Digite o n�mero de cadastramento da Conta que deseja excluir: ");
+			System.out.println("Digite o numero de cadastro da Conta que deseja excluir: ");
 			String numeroCadastro = ler.nextLine();
 			String[] vetor;
 
@@ -328,7 +332,7 @@ public class Corrente extends Conta {
 				vetor = m.split("#");
 
 				if (vetor[0].equalsIgnoreCase(numeroCadastro)) {
-					System.out.println("Conta Corrente exclu�da com sucesso!");
+					System.out.println("Conta Corrente excluida com sucesso!");
 				} else {
 					bw.write(linha);
 					bw.newLine();
@@ -347,16 +351,17 @@ public class Corrente extends Conta {
 			bwaux.close();
 			braux.close();
 			j.delete();
-
+			return true;
 		} catch (Exception e) {
 			System.out.println("Erro no programa.");
+			return false;
 		}
 	}
 
 	public void excluir(String caminhoCorrente, Scanner ler) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
-			System.out.println("Digite o n�mero de cadastramento da Conta que deseja excluir: ");
+			System.out.println("Digite o numero de cadastro da Conta que deseja excluir: ");
 			String numeroCadastro = ler.nextLine();
 			String[] vetor;
 
@@ -433,7 +438,7 @@ public class Corrente extends Conta {
 				somaC = somaC + auxVet;
 			}
 			setSomaC(somaC);
-			System.out.println("O total das Correntes �: " + somaC);
+			System.out.println("Total das Correntes: " + somaC);
 			br.close();
 
 		} catch (Exception e) {
