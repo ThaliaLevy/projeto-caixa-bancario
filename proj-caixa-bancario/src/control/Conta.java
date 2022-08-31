@@ -6,10 +6,9 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Conta {
-	private String agencia;
-	private String nrConta;
+	private String agencia, nrConta, titular;
 	private double saldo;
-	private String titular;
+	double contador = 0, menorSaldo = 0, maiorSaldo = 0;
 	
 	public void mostrarMenuOpcoesIniciais() {
 		System.out.println("\n Menu \n======");
@@ -66,6 +65,38 @@ public class Conta {
 		}
 		ler.close();
 		return null;
+	}
+	
+	public String verificarMenorSaldo (double saldoConta, String linha, String informacoesContaComMenorSaldo) {
+		if (contador == 0) {
+			menorSaldo = saldoConta;
+			informacoesContaComMenorSaldo = linha;
+			contador++;
+		} else {
+			if (saldoConta < menorSaldo) {
+				menorSaldo = saldoConta;
+				informacoesContaComMenorSaldo = linha;
+			}
+		}
+		return informacoesContaComMenorSaldo;
+	}
+	
+	public String verificarMaiorSaldo (double saldoConta, String linha, String informacoesContaComMaiorSaldo) {
+		if (contador == 0) {
+			maiorSaldo = saldoConta;
+			informacoesContaComMaiorSaldo = linha;
+			contador++;
+		} else {
+			if (saldoConta > maiorSaldo) {
+				maiorSaldo = saldoConta;
+				informacoesContaComMaiorSaldo = linha;
+			}
+		}
+		return informacoesContaComMaiorSaldo;
+	}
+	
+	public String[] quebrarDadosEmIndicesVetor(String linhaDoDocumento) {
+		return linhaDoDocumento.replace(" ", "#").split("#");
 	}
 
 	public String getAgencia() {

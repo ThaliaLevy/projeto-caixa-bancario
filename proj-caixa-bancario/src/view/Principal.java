@@ -96,7 +96,7 @@ public class Principal {
 						break;
 					}
 					case "6": {
-						cc.verificarMaior(caminhoCorrente);
+						cc.exibirMaiorSaldo(caminhoCorrente);
 						break;
 					}
 					case "s":
@@ -185,7 +185,7 @@ public class Principal {
 						break;
 					}
 					case "6": {
-						cp.verificarMaior(caminhoPoupanca);
+						cp.exibirMenorSaldo(caminhoPoupanca);
 						break;
 					}
 					case "7": {
@@ -212,8 +212,8 @@ public class Principal {
 				cp.somaPoupanca(caminhoPoupanca);
 				cc.somaCorrente(caminhoCorrente);
 
-				double resultado = cp.getSomaP() + cc.getSomaC();
-				System.out.println("Montante deste Banco: " + resultado);
+				double somaMontante = cp.getSomaP() + cc.getSomaC();
+				System.out.println("Montante deste Banco: " + somaMontante);
 			}
 			case "s":
 			case "S": {
