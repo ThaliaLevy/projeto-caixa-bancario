@@ -83,7 +83,7 @@ public class Principal {
 						break;
 					}
 					case "3": {
-						cc.contarCorrentes(caminhoCorrente);
+						cc.contarTotalDeContasCadastradas(caminhoCorrente, "Correntes");
 						break;
 					}
 					case "4": {
@@ -173,7 +173,7 @@ public class Principal {
 						break;
 					}
 					case "3": {
-						cp.contarPoupancas(caminhoPoupanca);
+						cp.contarTotalDeContasCadastradas(caminhoPoupanca, "Poupancas");
 						break;
 					}
 					case "4": {
@@ -189,7 +189,7 @@ public class Principal {
 						break;
 					}
 					case "7": {
-						cp.aplicarRendimento(caminhoPoupanca, ler);
+						cp.exibirSaldoComRendimento(caminhoPoupanca, ler);
 						break;
 					}
 					default: {
@@ -226,7 +226,9 @@ public class Principal {
 			}
 			}
 		} while (!(op.equalsIgnoreCase("s") | op.equals("S")));
+		
 		System.out.println("Fim do programa.\n");
+		ler.close();
 	}
 	
 	public static void verificarArquivo(String caminho) {

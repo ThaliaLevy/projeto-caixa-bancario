@@ -2,7 +2,6 @@ package control;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Scanner;
@@ -90,32 +89,12 @@ public class Poupanca extends Conta {
 		}
 	}
 
-	public void contarPoupancas(String caminhoPoupanca) {
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(caminhoPoupanca));
-			System.out.println("Calculando, aguarde...");
-			
-			int contador = 0;
-			while (br.ready()) {
-				if (!br.readLine().isEmpty()) {
-					contador++;
-				}
-			}
-			System.out.println(contador + " Contas Poupancas cadastradas.\n");
-			br.close();
-		} catch (Exception e) {
-			System.out.println("Erro no programa.");
-		}
-	}
-
 	public boolean atualizarPoupanca(String caminhoPoupanca, Scanner ler) {
 		try {
-			String novoCaminho = caminhoPoupanca.replace("poupanca.txt", "poupancaTemporaria.txt");
-			File novoArquivo = new File(novoCaminho);
-			novoArquivo.createNewFile();
+			String caminhoTemporario = criarArquivoTemporario(caminhoPoupanca, "Poupanca");
 
 			BufferedReader br = new BufferedReader(new FileReader(caminhoPoupanca));
-			BufferedWriter bw = new BufferedWriter(new FileWriter(novoCaminho));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoTemporario));
 
 			System.out.println("Digite o numero de cadastro da Conta a ser modificada: ");
 			String numeroCadastro = ler.nextLine();
@@ -140,16 +119,9 @@ public class Poupanca extends Conta {
 			br.close();
 			bw.close();
 
-			BufferedReader braux = new BufferedReader(new FileReader(novoCaminho));
-			BufferedWriter bwaux = new BufferedWriter(new FileWriter(caminhoPoupanca));
-
-			while (braux.ready()) {
-				bwaux.write(braux.readLine());
-				bwaux.newLine();
-			}
-			bwaux.close();
-			braux.close();
-			novoArquivo.delete();
+			reescreverDadosNoArquivoOriginal(caminhoTemporario, caminhoPoupanca);
+			excluirArquivoTemporario(caminhoTemporario);
+			
 			return true;
 		} catch (Exception e) {
 			System.out.println("Erro no programa.");
@@ -159,12 +131,10 @@ public class Poupanca extends Conta {
 
 	public boolean salvarSaque(String caminhoPoupanca, Scanner ler) {
 		try {
-			String novoCaminho = caminhoPoupanca.replace("poupanca.txt", "poupancaTemporaria.txt");
-			File novoArquivo = new File(novoCaminho);
-			novoArquivo.createNewFile();
+			String caminhoTemporario = criarArquivoTemporario(caminhoPoupanca, "Poupanca");
 
 			BufferedReader br = new BufferedReader(new FileReader(caminhoPoupanca));
-			BufferedWriter bw = new BufferedWriter(new FileWriter(novoCaminho));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoTemporario));
 
 			System.out.println("Digite o numero de cadastro da Conta de onde sera sacado: ");
 			String numeroCadastro = ler.nextLine();
@@ -190,39 +160,30 @@ public class Poupanca extends Conta {
 			br.close();
 			bw.close();
 
-			BufferedReader braux = new BufferedReader(new FileReader(novoCaminho));
-			BufferedWriter bwaux = new BufferedWriter(new FileWriter(caminhoPoupanca));
-
-			while (braux.ready()) {
-				bwaux.write(braux.readLine());
-				bwaux.newLine();
-			}
-			bwaux.close();
-			braux.close();
-			novoArquivo.delete();
+			reescreverDadosNoArquivoOriginal(caminhoTemporario, caminhoPoupanca);
+			excluirArquivoTemporario(caminhoTemporario);
+			
 			return true;
 		} catch (Exception e) {
 			return false;
 		}
 	}
 
-	public void aplicarRend(String auxSaldo, String auxRendimento, Scanner ler) {
-		double auxSal = Double.parseDouble(auxSaldo);
-		double auxRend = Double.parseDouble(auxRendimento);
-
-		auxSal = auxSal + auxSal * auxRend / 100;
-		setSaldo(auxSal);
-		System.out.println("Novo saldo com o rendimento aplicado: " + auxSal);
+	public void aplicarRendimento(String saldo, String rendimento) {
+		double porcentagemRendimento = Double.parseDouble(rendimento) / 100;
+		double saldoAtual = Double.parseDouble(saldo);
+		double novoSaldoComRendimento = saldoAtual + (saldoAtual * porcentagemRendimento);
+		setSaldo(novoSaldoComRendimento);
+		
+		System.out.println("Novo saldo com o rendimento aplicado: " + novoSaldoComRendimento);
 	}
 
-	public void aplicarRendimento(String caminhoPoupanca, Scanner ler) {
+	public void exibirSaldoComRendimento(String caminhoPoupanca, Scanner ler) {
 		try {
-			String novoCaminho = caminhoPoupanca.replace("poupanca.txt", "poupancaTemporaria.txt");
-			File novoArquivo = new File(novoCaminho);
-			novoArquivo.createNewFile();
+			String caminhoTemporario = criarArquivoTemporario(caminhoPoupanca, "Poupanca");
 
 			BufferedReader br = new BufferedReader(new FileReader(caminhoPoupanca));
-			BufferedWriter bw = new BufferedWriter(new FileWriter(novoCaminho));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoTemporario));
 
 			System.out.println("Digite o numero de cadastro da Conta que deseja aplicar rendimento: ");
 			String numeroCadastro = ler.nextLine();
@@ -236,9 +197,8 @@ public class Poupanca extends Conta {
 				if (vetor[0].equalsIgnoreCase(numeroCadastro)) {
 					String auxSaldo = vetor[5];
 					String auxRendimento = vetor[4];
-					aplicarRend(auxSaldo, auxRendimento, ler);
-					bw.write(numeroCadastro + " " + vetor[1] + "#" + vetor[2] + "#" + vetor[3] + "#" + vetor[4] + "#"
-							+ getSaldo());
+					aplicarRendimento(auxSaldo, auxRendimento);
+					bw.write(numeroCadastro + " " + vetor[1] + "#" + vetor[2] + "#" + vetor[3] + "#" + vetor[4] + "#" + getSaldo());
 					bw.newLine();
 
 				} else {
@@ -249,16 +209,8 @@ public class Poupanca extends Conta {
 			br.close();
 			bw.close();
 
-			BufferedReader braux = new BufferedReader(new FileReader(novoCaminho));
-			BufferedWriter bwaux = new BufferedWriter(new FileWriter(caminhoPoupanca));
-
-			while (braux.ready()) {
-				bwaux.write(braux.readLine());
-				bwaux.newLine();
-			}
-			bwaux.close();
-			braux.close();
-			novoArquivo.delete();
+			reescreverDadosNoArquivoOriginal(caminhoTemporario, caminhoPoupanca);
+			excluirArquivoTemporario(caminhoTemporario);
 
 		} catch (Exception e) {
 			System.out.println("Erro no programa.");
@@ -274,20 +226,18 @@ public class Poupanca extends Conta {
 		if (i <= auxSal && i > 0) {
 			auxSal = auxSal - i;
 			setSaldo(auxSal);
-			System.out.println("O novo saldo da conta �: " + auxSal);
+			System.out.println("Novo saldo da conta: " + auxSal);
 		} else {
-			System.out.println("Comando inv�lido.");
+			System.out.println("Comando invalido.");
 		}
 	}
 
 	public boolean salvarDeposito(String caminhoPoupanca, Scanner ler) {
 		try {
-			String novoCaminho = caminhoPoupanca.replace("poupanca.txt", "poupancaTemporaria.txt");
-			File novoArquivo = new File(novoCaminho);
-			novoArquivo.createNewFile();
+			String caminhoTemporario = criarArquivoTemporario(caminhoPoupanca, "Poupanca");
 
 			BufferedReader br = new BufferedReader(new FileReader(caminhoPoupanca));
-			BufferedWriter bw = new BufferedWriter(new FileWriter(novoCaminho));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoTemporario));
 
 			System.out.println("Digite o numero de cadastro da Conta para onde ser� depositado: ");
 			String numeroCadastro = ler.nextLine();
@@ -313,16 +263,8 @@ public class Poupanca extends Conta {
 			br.close();
 			bw.close();
 
-			BufferedReader braux = new BufferedReader(new FileReader(novoCaminho));
-			BufferedWriter bwaux = new BufferedWriter(new FileWriter(caminhoPoupanca));
-
-			while (braux.ready()) {
-				bwaux.write(braux.readLine());
-				bwaux.newLine();
-			}
-			bwaux.close();
-			braux.close();
-			novoArquivo.delete();
+			reescreverDadosNoArquivoOriginal(caminhoTemporario, caminhoPoupanca);
+			excluirArquivoTemporario(caminhoTemporario);
 			return true;
 		} catch (Exception e) {
 			System.out.println("Erro no programa.");
@@ -365,12 +307,10 @@ public class Poupanca extends Conta {
 
 	public boolean excluirConta(String caminhoPoupanca, Scanner ler) {
 		try {
-			String novoCaminho = caminhoPoupanca.replace("poupanca.txt", "poupancaTemporaria.txt");
-			File novoArquivo = new File(novoCaminho);
-			novoArquivo.createNewFile();
+			String caminhoTemporario = criarArquivoTemporario(caminhoPoupanca, "Poupanca");
 
 			BufferedReader br = new BufferedReader(new FileReader(caminhoPoupanca));
-			BufferedWriter bw = new BufferedWriter(new FileWriter(novoCaminho));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoTemporario));
 
 			System.out.println("Digite o numero de cadastro da Conta que deseja excluir: ");
 			String numeroCadastro = ler.nextLine();
@@ -391,16 +331,8 @@ public class Poupanca extends Conta {
 			br.close();
 			bw.close();
 
-			BufferedReader braux = new BufferedReader(new FileReader(novoCaminho));
-			BufferedWriter bwaux = new BufferedWriter(new FileWriter(caminhoPoupanca));
-
-			while (braux.ready()) {
-				bwaux.write(braux.readLine());
-				bwaux.newLine();
-			}
-			bwaux.close();
-			braux.close();
-			novoArquivo.delete();
+			reescreverDadosNoArquivoOriginal(caminhoTemporario, caminhoPoupanca);
+			excluirArquivoTemporario(caminhoTemporario);
 			return true;
 		} catch (Exception e) {
 			return false;

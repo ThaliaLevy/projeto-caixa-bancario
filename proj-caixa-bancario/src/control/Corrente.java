@@ -2,7 +2,6 @@ package control;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Scanner;
@@ -73,12 +72,10 @@ public class Corrente extends Conta {
 
 	public boolean atualizarCorrente(String caminhoCorrente, Scanner ler) {
 		try {
-			String novoCaminho = caminhoCorrente.replace("corrente.txt", "correnteTemporaria.txt");
-			File novoArquivo = new File(novoCaminho);
-			novoArquivo.createNewFile();
+			String caminhoTemporario = criarArquivoTemporario(caminhoCorrente, "Corrente");
 
 			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
-			BufferedWriter bw = new BufferedWriter(new FileWriter(novoCaminho));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoTemporario));
 
 			System.out.println("Digite o numero de cadastro da Conta a ser modificada: ");
 			String numeroCadastro = ler.nextLine();
@@ -103,16 +100,9 @@ public class Corrente extends Conta {
 			br.close();
 			bw.close();
 
-			BufferedReader braux = new BufferedReader(new FileReader(novoCaminho));
-			BufferedWriter bwaux = new BufferedWriter(new FileWriter(caminhoCorrente));
-
-			while (braux.ready()) {
-				bwaux.write(braux.readLine());
-				bwaux.newLine();
-			}
-			bwaux.close();
-			braux.close();
-			novoArquivo.delete();
+			reescreverDadosNoArquivoOriginal(caminhoTemporario, caminhoCorrente);
+			excluirArquivoTemporario(caminhoTemporario);
+			
 			return true;
 		} catch (Exception e) {
 			System.out.println("Erro no programa.");
@@ -139,34 +129,12 @@ public class Corrente extends Conta {
 		return null;
 	}
 
-	public void contarCorrentes(String caminhoCorrente) {
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
-			int cont = 0;
-			String vazio;
-			System.out.println("Calculando, aguarde...");
-			while (br.ready()) {
-				vazio = br.readLine();
-				if (!vazio.isEmpty()) {
-					cont++;
-				}
-			}
-			System.out.println(cont + " Contas Correntes cadastradas.");
-			br.close();
-		} catch (Exception e) {
-			System.out.println("Erro no programa.");
-		}
-
-	}
-
 	public boolean salvarSaque(String caminhoCorrente, Scanner ler) {
 		try {
-			String novoCaminho = caminhoCorrente.replace("corrente.txt", "correnteTemporaria.txt");
-			File novoArquivo = new File(novoCaminho);
-			novoArquivo.createNewFile();
+			String caminhoTemporario = criarArquivoTemporario(caminhoCorrente, "Corrente");
 
 			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
-			BufferedWriter bw = new BufferedWriter(new FileWriter(novoCaminho));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoTemporario));
 
 			System.out.println("Digite o numero de cadastro da Conta de onde sera sacado: ");
 			String numeroCadastro = ler.nextLine();
@@ -193,16 +161,9 @@ public class Corrente extends Conta {
 			br.close();
 			bw.close();
 
-			BufferedReader braux = new BufferedReader(new FileReader(novoCaminho));
-			BufferedWriter bwaux = new BufferedWriter(new FileWriter(caminhoCorrente));
-
-			while (braux.ready()) {
-				bwaux.write(braux.readLine());
-				bwaux.newLine();
-			}
-			bwaux.close();
-			braux.close();
-			novoArquivo.delete();
+			reescreverDadosNoArquivoOriginal(caminhoTemporario, caminhoCorrente);
+			excluirArquivoTemporario(caminhoTemporario);
+			
 			return true;
 		} catch (Exception e) {
 			System.out.println("Erro no programa.");
@@ -228,12 +189,10 @@ public class Corrente extends Conta {
 
 	public boolean salvarDeposito(String caminhoCorrente, Scanner ler) {
 		try {
-			String novoCaminho = caminhoCorrente.replace("corrente.txt", "correnteTemporaria.txt");
-			File novoArquivo = new File(novoCaminho);
-			novoArquivo.createNewFile();
+			String caminhoTemporario = criarArquivoTemporario(caminhoCorrente, "Corrente");
 
 			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
-			BufferedWriter bw = new BufferedWriter(new FileWriter(novoCaminho));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoTemporario));
 
 			System.out.println("Digite o numero de cadastro da Conta para onde sera depositado: ");
 			String numeroCadastro = ler.nextLine();
@@ -259,16 +218,9 @@ public class Corrente extends Conta {
 			br.close();
 			bw.close();
 
-			BufferedReader braux = new BufferedReader(new FileReader(novoCaminho));
-			BufferedWriter bwaux = new BufferedWriter(new FileWriter(caminhoCorrente));
-
-			while (braux.ready()) {
-				bwaux.write(braux.readLine());
-				bwaux.newLine();
-			}
-			bwaux.close();
-			braux.close();
-			novoArquivo.delete();
+			reescreverDadosNoArquivoOriginal(caminhoTemporario, caminhoCorrente);
+			excluirArquivoTemporario(caminhoTemporario);
+			
 			return true;
 		} catch (Exception e) {
 			System.out.println("Erro no programa.");
@@ -311,12 +263,10 @@ public class Corrente extends Conta {
 
 	public boolean excluirConta(String caminhoCorrente, Scanner ler) {
 		try {
-			String novoCaminho = caminhoCorrente.replace("corrente.txt", "correnteTemporaria.txt");
-			File novoArquivo = new File(novoCaminho);
-			novoArquivo.createNewFile();
+			String caminhoTemporario = criarArquivoTemporario(caminhoCorrente, "Corrente");
 
 			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
-			BufferedWriter bw = new BufferedWriter(new FileWriter(novoCaminho));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoTemporario));
 
 			System.out.println("Digite o numero de cadastro da Conta que deseja excluir: ");
 			String numeroCadastro = ler.nextLine();
@@ -337,16 +287,9 @@ public class Corrente extends Conta {
 			br.close();
 			bw.close();
 
-			BufferedReader braux = new BufferedReader(new FileReader(novoCaminho));
-			BufferedWriter bwaux = new BufferedWriter(new FileWriter(caminhoCorrente));
-
-			while (braux.ready()) {
-				bwaux.write(braux.readLine());
-				bwaux.newLine();
-			}
-			bwaux.close();
-			braux.close();
-			novoArquivo.delete();
+			reescreverDadosNoArquivoOriginal(caminhoTemporario, caminhoCorrente);
+			excluirArquivoTemporario(caminhoTemporario);
+			
 			return true;
 		} catch (Exception e) {
 			System.out.println("Erro no programa.");

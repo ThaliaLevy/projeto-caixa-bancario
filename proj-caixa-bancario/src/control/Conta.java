@@ -1,7 +1,10 @@
 package control;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -93,6 +96,67 @@ public class Conta {
 			}
 		}
 		return informacoesContaComMaiorSaldo;
+	}
+	
+	public void contarTotalDeContasCadastradas(String caminho, String tipoConta) {
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(caminho));
+			System.out.println("Calculando, aguarde...");
+			
+			int contador = 0;
+			while (br.ready()) {
+				if (!br.readLine().isEmpty()) {
+					contador++;
+				}
+			}
+			
+			System.out.println(contador + " Contas " + tipoConta + " cadastradas.\n");
+			br.close();
+		} catch (Exception e) {
+			System.out.println("Erro no programa.");
+		}
+	}
+	
+	public String criarArquivoTemporario(String caminho, String tipoConta) {
+			try {
+				String caminhoTemporario;
+				if(tipoConta.equals("Poupanca")) {
+					caminhoTemporario = caminho.replace("poupanca.txt", "poupancaTemporaria.txt");
+				}else {
+					caminhoTemporario = caminho.replace("corrente.txt", "correnteTemporaria.txt");
+				}
+				File novoArquivo = new File(caminhoTemporario);
+				novoArquivo.createNewFile();
+	
+				return caminhoTemporario;
+			} catch (IOException e) {
+				System.out.println("Erro!");
+				return null;
+			}
+	}
+	
+	public void excluirArquivoTemporario(String caminhoTemporario) {
+		File arquivoTemporario = new File(caminhoTemporario);
+		if (arquivoTemporario.exists()) {
+			arquivoTemporario.delete();
+		}
+	}
+	
+	public void reescreverDadosNoArquivoOriginal(String caminhoTemporario, String caminho) {
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(caminhoTemporario));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(caminho));
+			
+			while (br.ready()) {
+				bw.write(br.readLine());
+				bw.newLine();
+			}
+			
+			bw.close();
+			br.close();
+		} catch (IOException e) {
+			System.out.println("Erro!");
+		}
 	}
 	
 	public String[] quebrarDadosEmIndicesVetor(String linhaDoDocumento) {
