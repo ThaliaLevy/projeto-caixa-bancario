@@ -57,12 +57,12 @@ public class Principal {
 								break;
 							}
 							case "3": {
-								retorno = (cc.salvarDeposito(caminhoCorrente, ler) == true) ? "\nDeposito realizado com sucesso!\n" : "\nErro. Deposito nao realizado! \n";
+								retorno = (c.iniciarProcessoDeposito(caminhoCorrente, ler, "Corrente") == true) ? "\nDeposito realizado com sucesso!\n" : "\nErro. Deposito nao realizado! \n";
 								System.out.println(retorno);
 								break;
 							}
 							case "4": {
-								cc.verificarSaldo(caminhoCorrente, ler);
+								c.verificarSaldo(caminhoCorrente, ler);
 								break;
 							}
 							case "5": {
@@ -91,7 +91,7 @@ public class Principal {
 						break;
 					}
 					case "5": {
-						retorno = (cc.excluirConta(caminhoCorrente, ler) == true) ? "\nExclusao realizada com sucesso!\n" : "\nErro. Exclusao nao realizada! \n";
+						retorno = (c.excluirConta(caminhoCorrente, ler, "Corrente") == true) ? "\nExclusao realizada com sucesso!\n" : "\nErro. Exclusao nao realizada! \n";
 						System.out.println(retorno);
 						break;
 					}
@@ -147,12 +147,12 @@ public class Principal {
 								break;
 							}
 							case "3": {
-								retorno = (cp.salvarDeposito(caminhoPoupanca, ler) == true) ? "\nDeposito realizado com sucesso! \n" : "\nErro. Deposito nao realizado!\n";
+								retorno = (c.iniciarProcessoDeposito(caminhoPoupanca, ler, "Poupanca") == true) ? "\nDeposito realizado com sucesso! \n" : "\nErro. Deposito nao realizado!\n";
 								System.out.println(retorno);
 								break;
 							}
 							case "4": {
-								cp.verificarSaldo(caminhoPoupanca, ler);
+								c.verificarSaldo(caminhoPoupanca, ler);
 								break;
 							}
 							case "5": {
@@ -181,7 +181,7 @@ public class Principal {
 						break;
 					}
 					case "5": {
-						retorno = (cp.excluirConta(caminhoPoupanca, ler) == true) ? "\nExclusao realizada com sucesso! \n" : "\nErro. Exclusao nao realizada!\n";
+						retorno = (c.excluirConta(caminhoPoupanca, ler, "Poupanca") == true) ? "\nExclusao realizada com sucesso! \n" : "\nErro. Exclusao nao realizada!\n";
 						break;
 					}
 					case "6": {
@@ -207,13 +207,10 @@ public class Principal {
 			}
 				break;
 			case "3": {
-				Corrente cc = new Corrente();
-				Poupanca cp = new Poupanca();
-				cp.somaPoupanca(caminhoPoupanca);
-				cc.somaCorrente(caminhoCorrente);
-
-				double somaMontante = cp.getSomaP() + cc.getSomaC();
-				System.out.println("Montante deste Banco: " + somaMontante);
+				double somatorioSaldoCorrentes = c.somarSaldosDasContas(caminhoCorrente, "Correntes");
+				double somatorioSaldoPoupancas = c.somarSaldosDasContas(caminhoPoupanca, "Poupancas");
+				
+				System.out.println("Montante deste Banco: " + c.calcularMontanteDoBanco(somatorioSaldoCorrentes, somatorioSaldoPoupancas));
 			}
 			case "s":
 			case "S": {

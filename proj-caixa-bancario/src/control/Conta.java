@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Conta {
-	private String agencia, nrConta, titular;
+	private String agencia, nrConta, titular; //refatorar: validar possibilidade de criar var tipoConta
 	private double saldo;
 	double contador = 0, menorSaldo = 0, maiorSaldo = 0;
 	
@@ -159,8 +159,142 @@ public class Conta {
 		}
 	}
 	
+	public double somarSaldosDasContas(String caminho, String tipoConta) {
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(caminho));
+			System.out.println("Somando saldos das Contas " + tipoConta + ", aguarde...");
+			String[] vetor;
+
+			while (br.ready()) {
+				br.ready();
+
+				String linha = br.readLine();
+				vetor = quebrarDadosEmIndicesVetor(linha);
+
+				double valorPorConta = Double.parseDouble(vetor[5]);
+				saldo = saldo + valorPorConta;
+			}
+			
+			br.close();
+			return saldo;
+		} catch (Exception e) {
+			System.out.println("Erro no programa.");
+			return 0;
+		}
+	}
+	
+	public double calcularMontanteDoBanco(double somatorioSaldoCorrentes, double somatorioSaldoPoupancas) {
+		double somatorioSaldoTodasAsContas = somatorioSaldoCorrentes + somatorioSaldoPoupancas;
+		return somatorioSaldoTodasAsContas;
+	}
+	
 	public String[] quebrarDadosEmIndicesVetor(String linhaDoDocumento) {
 		return linhaDoDocumento.replace(" ", "#").split("#");
+	}
+	
+	public boolean excluirConta(String caminho, Scanner ler, String tipoConta) {
+		try {
+			String caminhoTemporario = criarArquivoTemporario(caminho, tipoConta);
+
+			BufferedReader br = new BufferedReader(new FileReader(caminho));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoTemporario));
+
+			System.out.println("Digite o numero de cadastro da Conta que deseja excluir: ");
+			String numeroCadastro = ler.nextLine();
+			String[] vetor;
+
+			while (br.ready()) {
+				br.ready();
+				String linha = br.readLine();
+				vetor = quebrarDadosEmIndicesVetor(linha);
+
+				if (vetor[0].equalsIgnoreCase(numeroCadastro)) {
+					System.out.println("Conta Poupanca excluida com sucesso!");
+				} else {
+					bw.write(linha);
+					bw.newLine();
+				}
+			}
+			br.close();
+			bw.close();
+
+			reescreverDadosNoArquivoOriginal(caminhoTemporario, caminho);
+			excluirArquivoTemporario(caminhoTemporario);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	public void verificarSaldo(String caminho, Scanner ler) {
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(caminho));
+			System.out.println("Digite o numero de cadastro da Conta que deseja ver o saldo: ");
+			String numeroCadastro = ler.nextLine();
+			String[] vetor;
+
+			while (br.ready()) {
+				br.ready();
+				String linha = br.readLine();
+				vetor = quebrarDadosEmIndicesVetor(linha);
+
+				if (vetor[0].equalsIgnoreCase(numeroCadastro)) {
+					System.out.println("Atual saldo disponivel na Conta: " + vetor[5] + "\n");
+					break;
+				}
+			}
+			
+			br.close();
+		} catch (Exception e) {
+			System.out.println("Erro no programa.");
+		}
+	}
+
+	public boolean iniciarProcessoDeposito(String caminho, Scanner ler, String tipoConta) {
+		try {
+			String caminhoTemporario = criarArquivoTemporario(caminho, tipoConta);
+
+			BufferedReader br = new BufferedReader(new FileReader(caminho));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoTemporario));
+
+			System.out.println("Digite o numero de cadastro da Conta para onde sera depositado: ");
+			String numeroCadastro = ler.nextLine();
+			String[] vetor;
+
+			while (br.ready()) {
+				br.ready();
+				String linha = br.readLine();
+				vetor = quebrarDadosEmIndicesVetor(linha);
+
+				if (vetor[0].equalsIgnoreCase(numeroCadastro)) {
+					saldo = Double.parseDouble(vetor[5]);
+					depositar(saldo, ler);
+					bw.write(numeroCadastro + " " + vetor[1] + "#" + vetor[2] + "#" + vetor[3] + "#" + vetor[4] + "#"
+							+ getSaldo());
+					bw.newLine();
+
+				} else {
+					bw.write(linha);
+					bw.newLine();
+				}
+			}
+			br.close();
+			bw.close();
+
+			reescreverDadosNoArquivoOriginal(caminhoTemporario, caminho);
+			excluirArquivoTemporario(caminhoTemporario);
+			
+			return true;
+		} catch (Exception e) {
+			System.out.println("Erro no programa.");
+			return false;
+		}
+	}
+
+	public void depositar(double saldo, Scanner ler) {
+		System.out.print("Digite o valor a ser depositado: ");
+		double valorDepositado = ler.nextDouble();
+		setSaldo(saldo + valorDepositado);
 	}
 
 	public String getAgencia() {

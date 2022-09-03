@@ -7,8 +7,7 @@ import java.io.FileWriter;
 import java.util.Scanner;
 
 public class Corrente extends Conta {
-	private double limite, somaC;
-
+	private double limite;
 	public Corrente() {
 
 	}
@@ -187,140 +186,6 @@ public class Corrente extends Conta {
 		}
 	}
 
-	public boolean salvarDeposito(String caminhoCorrente, Scanner ler) {
-		try {
-			String caminhoTemporario = criarArquivoTemporario(caminhoCorrente, "Corrente");
-
-			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
-			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoTemporario));
-
-			System.out.println("Digite o numero de cadastro da Conta para onde sera depositado: ");
-			String numeroCadastro = ler.nextLine();
-			String[] vetor;
-
-			while (br.ready()) {
-				br.ready();
-				String linha = br.readLine();
-				vetor = quebrarDadosEmIndicesVetor(linha);
-
-				if (vetor[0].equalsIgnoreCase(numeroCadastro)) {
-					String auxSaldo = vetor[5];
-					depositar(auxSaldo, ler);
-					bw.write(numeroCadastro + " " + vetor[1] + "#" + vetor[2] + "#" + vetor[3] + "#" + vetor[4] + "#"
-							+ getSaldo());
-					bw.newLine();
-
-				} else {
-					bw.write(linha);
-					bw.newLine();
-				}
-			}
-			br.close();
-			bw.close();
-
-			reescreverDadosNoArquivoOriginal(caminhoTemporario, caminhoCorrente);
-			excluirArquivoTemporario(caminhoTemporario);
-			
-			return true;
-		} catch (Exception e) {
-			System.out.println("Erro no programa.");
-			return false;
-		}
-	}
-
-	public void depositar(String auxSaldo, Scanner ler) {
-		System.out.print("Digite o valor a ser depositado: ");
-		String valorDepositado = ler.nextLine();
-		double auxSal = Double.parseDouble(auxSaldo);
-		double i = Double.parseDouble(valorDepositado);
-		auxSal = auxSal + i;
-		setSaldo(auxSal);
-		System.out.println("Novo saldo da conta: " + auxSal);
-	}
-
-	public void verificarSaldo(String caminhoCorrente, Scanner ler) {
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
-			System.out.println("Digite o numero de cadastro da Conta que deseja ver o saldo: ");
-			String numeroCadastro = ler.nextLine();
-			String[] vetor;
-
-			while (br.ready()) {
-				br.ready();
-				String linha = br.readLine();
-				vetor = quebrarDadosEmIndicesVetor(linha);
-
-				if (vetor[0].equalsIgnoreCase(numeroCadastro)) {
-					System.out.println("Atual saldo disponivel na Conta: " + vetor[5] + "\n");
-					break;
-				}
-			}
-			br.close();
-		} catch (Exception e) {
-			System.out.println("Erro no programa.");
-		}
-	}
-
-	public boolean excluirConta(String caminhoCorrente, Scanner ler) {
-		try {
-			String caminhoTemporario = criarArquivoTemporario(caminhoCorrente, "Corrente");
-
-			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
-			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoTemporario));
-
-			System.out.println("Digite o numero de cadastro da Conta que deseja excluir: ");
-			String numeroCadastro = ler.nextLine();
-			String[] vetor;
-
-			while (br.ready()) {
-				br.ready();
-				String linha = br.readLine();
-				vetor = quebrarDadosEmIndicesVetor(linha);
-
-				if (vetor[0].equalsIgnoreCase(numeroCadastro)) {
-					System.out.println("Conta Corrente excluida com sucesso!");
-				} else {
-					bw.write(linha);
-					bw.newLine();
-				}
-			}
-			br.close();
-			bw.close();
-
-			reescreverDadosNoArquivoOriginal(caminhoTemporario, caminhoCorrente);
-			excluirArquivoTemporario(caminhoTemporario);
-			
-			return true;
-		} catch (Exception e) {
-			System.out.println("Erro no programa.");
-			return false;
-		}
-	}
-
-	public void excluir(String caminhoCorrente, Scanner ler) {
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
-			System.out.println("Digite o numero de cadastro da Conta que deseja excluir: ");
-			String numeroCadastro = ler.nextLine();
-			String[] vetor;
-
-			while (br.ready()) {
-				br.ready();
-				String linha = br.readLine();
-				vetor = quebrarDadosEmIndicesVetor(linha);
-
-				if (vetor[0].equalsIgnoreCase(numeroCadastro)) {
-					linha.substring(linha.indexOf(""), linha.lastIndexOf(""));
-
-					break;
-				}
-			}
-			br.close();
-		} catch (Exception e) {
-			System.out.println("Erro no programa.");
-		}
-	}
-
 	public void exibirMaiorSaldo(String caminhoCorrente) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
@@ -344,39 +209,7 @@ public class Corrente extends Conta {
 			System.out.println("Erro no programa.");
 		}
 	}
-
-	public void somaCorrente(String caminhoCorrente) {
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
-			System.out.println("Somando saldos das Contas Correntes, aguarde...");
-			String[] vetor;
-
-			while (br.ready()) {
-				br.ready();
-
-				String linha = br.readLine();
-				vetor = quebrarDadosEmIndicesVetor(linha);
-
-				double auxVet = Double.parseDouble(vetor[5]);
-				somaC = somaC + auxVet;
-			}
-			setSomaC(somaC);
-			System.out.println("Total das Correntes: " + somaC);
-			br.close();
-
-		} catch (Exception e) {
-			System.out.println("Erro no programa.");
-		}
-	}
-
-	public double getSomaC() {
-		return somaC;
-	}
-
-	public void setSomaC(double somaC) {
-		this.somaC = somaC;
-	}
-
+	
 	public double getLimite() {
 		return limite;
 	}
