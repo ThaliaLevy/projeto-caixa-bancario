@@ -71,24 +71,6 @@ public class Poupanca extends Conta {
 		}
 	}
 	//refatorar
-	public void imprimirPoupancas(String caminhoPoupanca) {
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(caminhoPoupanca));
-			String linha;
-			System.out.println("Imprimindo relacao de Contas Poupancas salvas...");
-			System.out.println("\nInformacoes dispostas em: Nro Cadastro, Titular, Nro Agencia, Nro Conta, Limite, Saldo.");
-
-			while (br.ready()) {
-				linha = br.readLine();
-				System.out.println(linha.replace("#", ",\t"));
-			}
-			System.out.println("\n");
-			br.close();
-		} catch (Exception e) {
-			System.out.println("Erro no programa.");
-		}
-	}
-	//refatorar
 	public boolean atualizarPoupanca(String caminhoPoupanca, Scanner ler) {
 		try {
 			String caminhoTemporario = criarArquivoTemporario(caminhoPoupanca, "Poupanca");
