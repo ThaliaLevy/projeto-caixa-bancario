@@ -109,25 +109,6 @@ public class Corrente extends Conta {
 		}
 	}
 
-	public String[] imprimirCorrentes(String caminhoCorrente) {
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
-			String linha;
-			System.out.println("Imprimindo relacao de Contas Correntes salvas...");
-			System.out.println("\nInformacoes dispostas em: Nro Cadastro, Titular, Nro Agencia, Nro Conta, Limite, Saldo.");
-
-			while (br.ready()) {
-				linha = br.readLine();
-				System.out.println(linha.replace("#", ",\t"));
-			}
-			System.out.println("\n");
-			br.close();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		return null;
-	}
-
 	public boolean salvarSaque(String caminhoCorrente, Scanner ler) {
 		try {
 			String caminhoTemporario = criarArquivoTemporario(caminhoCorrente, "Corrente");

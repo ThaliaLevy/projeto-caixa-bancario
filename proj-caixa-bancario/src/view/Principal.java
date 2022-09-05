@@ -87,7 +87,7 @@ public class Principal {
 						break;
 					}
 					case "4": {
-						cc.imprimirCorrentes(caminhoCorrente);
+						c.imprimirContas(caminhoCorrente);
 						break;
 					}
 					case "5": {
@@ -177,7 +177,7 @@ public class Principal {
 						break;
 					}
 					case "4": {
-						cp.imprimirPoupancas(caminhoPoupanca);
+						c.imprimirContas(caminhoPoupanca);
 						break;
 					}
 					case "5": {

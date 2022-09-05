@@ -69,6 +69,24 @@ public class Conta {
 		ler.close();
 		return null;
 	}
+
+	public void imprimirContas(String caminho) {
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(caminho));
+			String linha;
+			System.out.println("Imprimindo relacao de Contas salvas...");
+			System.out.println("\nInformacoes dispostas em: ");	
+			System.out.println("\nNro Cadastro | Titular | Nro Agencia | Nro Conta | Limite | Saldo");
+			while (br.ready()) {
+				linha = br.readLine();
+				System.out.println(linha.replaceFirst(" ", "\t | ").replace("#", "\t | "));
+			}
+			System.out.println("\n");
+			br.close();
+		} catch (Exception e) {
+			System.out.println("Erro no programa.");
+		}
+	}
 	
 	public String verificarMenorSaldo (double saldoConta, String linha, String informacoesContaComMenorSaldo) {
 		if (contador == 0) {
