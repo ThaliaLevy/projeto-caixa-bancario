@@ -69,46 +69,6 @@ public class Corrente extends Conta {
 		}
 	}
 
-	public boolean atualizarCorrente(String caminhoCorrente, Scanner ler) {
-		try {
-			String caminhoTemporario = criarArquivoTemporario(caminhoCorrente, "Corrente");
-
-			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
-			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoTemporario));
-
-			System.out.println("Digite o numero de cadastro da Conta a ser modificada: ");
-			String numeroCadastro = ler.nextLine();
-			String[] vetor;
-
-			while (br.ready()) {
-				br.ready();
-				String linha = br.readLine();
-				vetor = linha.split(" ");
-
-				if (vetor[0].equalsIgnoreCase(numeroCadastro)) {
-					cadastrarCorrente(ler);
-					bw.write(numeroCadastro + " " + getTitular() + "#" + getAgencia() + "#" + getNrConta() + "#"
-							+ getLimite() + "#" + getSaldo());
-					bw.newLine();
-
-				} else {
-					bw.write(linha);
-					bw.newLine();
-				}
-			}
-			br.close();
-			bw.close();
-
-			reescreverDadosNoArquivoOriginal(caminhoTemporario, caminhoCorrente);
-			excluirArquivoTemporario(caminhoTemporario);
-			
-			return true;
-		} catch (Exception e) {
-			System.out.println("Erro no programa.");
-			return false;
-		}
-	}
-
 	public void exibirMaiorSaldo(String caminhoCorrente) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
