@@ -368,13 +368,66 @@ public class Conta {
 			} else {
 				System.out.println("Confira os valores e tente novamente.");
 			}
-		}else {
+		} else {
 			if (valorSacado <= saldoAtual && valorSacado > 0) {
 				saldoAtual = saldoAtual - valorSacado;
 				setSaldo(saldoAtual);
 			} else {
 				System.out.println("Confira os valores e tente novamente.");
 			}
+		}
+	}
+
+	public boolean atualizarConta(String caminho, Scanner ler, String tipoConta) {
+		try {
+			String caminhoTemporario = criarArquivoTemporario(caminho, tipoConta);
+
+			BufferedReader br = new BufferedReader(new FileReader(caminho));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoTemporario));
+
+			System.out.println("Digite o numero de cadastro da Conta a ser modificada: ");
+			String numeroCadastro = ler.nextLine();
+			String[] vetor;
+
+			while (br.ready()) {
+				br.ready();
+				String linha = br.readLine();
+				vetor = linha.split(" ");
+
+				if (tipoConta.equals("Corrente")) {
+					if (vetor[0].equalsIgnoreCase(numeroCadastro)) {
+						Corrente cc = new Corrente();
+						cc.cadastrarCorrente(ler);
+						bw.write(numeroCadastro + " " + cc.getTitular() + "#" + cc.getAgencia() + "#" + cc.getNrConta() + "#"
+								+ cc.getLimite() + "#" + cc.getSaldo());
+						bw.newLine();
+					} else {
+						bw.write(linha);
+						bw.newLine();
+					}
+				} else {
+					if (vetor[0].equalsIgnoreCase(numeroCadastro)) {
+						Poupanca cp = new Poupanca();
+						cp.cadastrarPoupanca(ler);
+						bw.write(numeroCadastro + " " + cp.getTitular() + "#" + cp.getAgencia() + "#" + cp.getNrConta() + "#"
+								+ cp.getRendimento() + "#" + cp.getSaldo());
+						bw.newLine();
+					} else {
+						bw.write(linha);
+						bw.newLine();
+					}
+				}
+			}
+			br.close();
+			bw.close();
+
+			reescreverDadosNoArquivoOriginal(caminhoTemporario, caminho);
+			excluirArquivoTemporario(caminhoTemporario);
+
+			return true;
+		} catch (Exception e) {
+			System.out.println("Erro no programa.");
+			return false;
 		}
 	}
 

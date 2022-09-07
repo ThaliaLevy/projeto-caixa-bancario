@@ -70,46 +70,6 @@ public class Poupanca extends Conta {
 			return false;
 		}
 	}
-	//refatorar
-	public boolean atualizarPoupanca(String caminhoPoupanca, Scanner ler) {
-		try {
-			String caminhoTemporario = criarArquivoTemporario(caminhoPoupanca, "Poupanca");
-
-			BufferedReader br = new BufferedReader(new FileReader(caminhoPoupanca));
-			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoTemporario));
-
-			System.out.println("Digite o numero de cadastro da Conta a ser modificada: ");
-			String numeroCadastro = ler.nextLine();
-			String[] vetor;
-
-			while (br.ready()) {
-				br.ready();
-				String linha = br.readLine();
-				vetor = linha.split(" ");
-
-				if (vetor[0].equalsIgnoreCase(numeroCadastro)) {
-					cadastrarPoupanca(ler);
-					bw.write(numeroCadastro + " " + getTitular() + "#" + getAgencia() + "#" + getNrConta() + "#"
-							+ getRendimento() + "#" + getSaldo());
-					bw.newLine();
-
-				} else {
-					bw.write(linha);
-					bw.newLine();
-				}
-			}
-			br.close();
-			bw.close();
-
-			reescreverDadosNoArquivoOriginal(caminhoTemporario, caminhoPoupanca);
-			excluirArquivoTemporario(caminhoTemporario);
-			
-			return true;
-		} catch (Exception e) {
-			System.out.println("Erro no programa.");
-			return false;
-		}
-	}
 
 	public void aplicarRendimento(String saldo, String rendimento) {
 		double porcentagemRendimento = Double.parseDouble(rendimento) / 100;

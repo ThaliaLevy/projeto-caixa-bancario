@@ -47,7 +47,7 @@ public class Principal {
 
 							switch (op) {
 							case "1": {
-								retorno = (cc.atualizarCorrente(caminhoCorrente, ler) == true) ? "\nConta Corrente atualizada com sucesso!\n" : "\nErro. Conta nao atualizada! \n";
+								retorno = (c.atualizarConta(caminhoCorrente, ler, "Corrente") == true) ? "\nConta Corrente atualizada com sucesso!\n" : "\nErro. Conta nao atualizada! \n";
 								System.out.println(retorno);
 								break;
 							}
@@ -137,7 +137,7 @@ public class Principal {
 
 							switch (op) {
 							case "1": {
-								retorno = (cp.atualizarPoupanca(caminhoPoupanca, ler) == true) ? "\nConta Poupanca atualizada com sucesso! \n" : "\nErro. Conta nao atualizada!\n";
+								retorno = (c.atualizarConta(caminhoPoupanca, ler, "Poupanca") == true) ? "\nConta Poupanca atualizada com sucesso! \n" : "\nErro. Conta nao atualizada!\n";
 								System.out.println(retorno);
 								break;
 							}
