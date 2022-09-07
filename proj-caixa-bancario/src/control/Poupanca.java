@@ -110,46 +110,6 @@ public class Poupanca extends Conta {
 			return false;
 		}
 	}
-	//refatorar
-	public boolean salvarSaque(String caminhoPoupanca, Scanner ler) {
-		try {
-			String caminhoTemporario = criarArquivoTemporario(caminhoPoupanca, "Poupanca");
-
-			BufferedReader br = new BufferedReader(new FileReader(caminhoPoupanca));
-			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoTemporario));
-
-			System.out.println("Digite o numero de cadastro da Conta de onde sera sacado: ");
-			String numeroCadastro = ler.nextLine();
-			String[] vetor;
-
-			while (br.ready()) {
-				br.ready();
-				String linha = br.readLine();
-				vetor = quebrarDadosEmIndicesVetor(linha);
-
-				if (vetor[0].equalsIgnoreCase(numeroCadastro)) {
-					String auxSaldo = vetor[5];
-					sacar(auxSaldo, ler);
-					bw.write(numeroCadastro + " " + vetor[1] + "#" + vetor[2] + "#" + vetor[3] + "#" + vetor[4] + "#"
-							+ getSaldo());
-					bw.newLine();
-
-				} else {
-					bw.write(linha);
-					bw.newLine();
-				}
-			}
-			br.close();
-			bw.close();
-
-			reescreverDadosNoArquivoOriginal(caminhoTemporario, caminhoPoupanca);
-			excluirArquivoTemporario(caminhoTemporario);
-			
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
 
 	public void aplicarRendimento(String saldo, String rendimento) {
 		double porcentagemRendimento = Double.parseDouble(rendimento) / 100;
@@ -198,22 +158,7 @@ public class Poupanca extends Conta {
 			System.out.println("Erro no programa.");
 		}
 	}
-//refatorar
-	public void sacar(String auxSaldo, Scanner ler) {
-		System.out.print("Digite o valor a ser sacado: ");
-		String valorSacado = ler.nextLine();
-
-		double auxSal = Double.parseDouble(auxSaldo);
-		double i = Double.parseDouble(valorSacado);
-		if (i <= auxSal && i > 0) {
-			auxSal = auxSal - i;
-			setSaldo(auxSal);
-			System.out.println("Novo saldo da conta: " + auxSal);
-		} else {
-			System.out.println("Comando invalido.");
-		}
-	}
-
+	
 	public void exibirMenorSaldo(String caminhoPoupanca) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoPoupanca));
