@@ -9,10 +9,10 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Conta {
-	private String agencia, nrConta, titular; //refatorar: validar possibilidade de criar var tipoConta
+	private String agencia, nrConta, titular; // refatorar: validar possibilidade de criar var tipoConta
 	private double saldo;
 	double contador = 0, menorSaldo = 0, maiorSaldo = 0;
-	
+
 	public void mostrarMenuOpcoesIniciais() {
 		System.out.println("\n Menu \n======");
 		System.out.println(" Escolha a opcao: \n==================");
@@ -21,7 +21,7 @@ public class Conta {
 		System.out.println("3 - para verificar a soma do montante deste Banco.");
 		System.out.println("s - para encerrar o sistema.");
 	}
-	
+
 	public int lerUltimoRegistro(String caminho) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(caminho));
@@ -39,7 +39,7 @@ public class Conta {
 		}
 		return 0;
 	}
-	
+
 	public String[] localizarConta(String caminho, Scanner ler, String tipoConta) {
 		try {
 			System.out.println("Digite o numero de cadastro da Conta a ser localizada: ");
@@ -75,7 +75,7 @@ public class Conta {
 			BufferedReader br = new BufferedReader(new FileReader(caminho));
 			String linha;
 			System.out.println("Imprimindo relacao de Contas salvas...");
-			System.out.println("\nInformacoes dispostas em: ");	
+			System.out.println("\nInformacoes dispostas em: ");
 			System.out.println("\nNro Cadastro | Titular | Nro Agencia | Nro Conta | Limite | Saldo");
 			while (br.ready()) {
 				linha = br.readLine();
@@ -87,8 +87,8 @@ public class Conta {
 			System.out.println("Erro no programa.");
 		}
 	}
-	
-	public String verificarMenorSaldo (double saldoConta, String linha, String informacoesContaComMenorSaldo) {
+
+	public String verificarMenorSaldo(double saldoConta, String linha, String informacoesContaComMenorSaldo) {
 		if (contador == 0) {
 			menorSaldo = saldoConta;
 			informacoesContaComMenorSaldo = linha;
@@ -101,8 +101,8 @@ public class Conta {
 		}
 		return informacoesContaComMenorSaldo;
 	}
-	
-	public String verificarMaiorSaldo (double saldoConta, String linha, String informacoesContaComMaiorSaldo) {
+
+	public String verificarMaiorSaldo(double saldoConta, String linha, String informacoesContaComMaiorSaldo) {
 		if (contador == 0) {
 			maiorSaldo = saldoConta;
 			informacoesContaComMaiorSaldo = linha;
@@ -115,68 +115,68 @@ public class Conta {
 		}
 		return informacoesContaComMaiorSaldo;
 	}
-	
+
 	public void contarTotalDeContasCadastradas(String caminho, String tipoConta) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(caminho));
 			System.out.println("Calculando, aguarde...");
-			
+
 			int contador = 0;
 			while (br.ready()) {
 				if (!br.readLine().isEmpty()) {
 					contador++;
 				}
 			}
-			
+
 			System.out.println(contador + " Contas " + tipoConta + " cadastradas.\n");
 			br.close();
 		} catch (Exception e) {
 			System.out.println("Erro no programa.");
 		}
 	}
-	
+
 	public String criarArquivoTemporario(String caminho, String tipoConta) {
-			try {
-				String caminhoTemporario;
-				if(tipoConta.equals("Poupanca")) {
-					caminhoTemporario = caminho.replace("poupanca.txt", "poupancaTemporaria.txt");
-				}else {
-					caminhoTemporario = caminho.replace("corrente.txt", "correnteTemporaria.txt");
-				}
-				File novoArquivo = new File(caminhoTemporario);
-				novoArquivo.createNewFile();
-	
-				return caminhoTemporario;
-			} catch (IOException e) {
-				System.out.println("Erro!");
-				return null;
+		try {
+			String caminhoTemporario;
+			if (tipoConta.equals("Poupanca")) {
+				caminhoTemporario = caminho.replace("poupanca.txt", "poupancaTemporaria.txt");
+			} else {
+				caminhoTemporario = caminho.replace("corrente.txt", "correnteTemporaria.txt");
 			}
+			File novoArquivo = new File(caminhoTemporario);
+			novoArquivo.createNewFile();
+
+			return caminhoTemporario;
+		} catch (IOException e) {
+			System.out.println("Erro!");
+			return null;
+		}
 	}
-	
+
 	public void excluirArquivoTemporario(String caminhoTemporario) {
 		File arquivoTemporario = new File(caminhoTemporario);
 		if (arquivoTemporario.exists()) {
 			arquivoTemporario.delete();
 		}
 	}
-	
+
 	public void reescreverDadosNoArquivoOriginal(String caminhoTemporario, String caminho) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoTemporario));
 			BufferedWriter bw = new BufferedWriter(new FileWriter(caminho));
-			
+
 			while (br.ready()) {
 				bw.write(br.readLine());
 				bw.newLine();
 			}
-			
+
 			bw.close();
 			br.close();
 		} catch (IOException e) {
 			System.out.println("Erro!");
 		}
 	}
-	
+
 	public double somarSaldosDasContas(String caminho, String tipoConta) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(caminho));
@@ -192,7 +192,7 @@ public class Conta {
 				double valorPorConta = Double.parseDouble(vetor[5]);
 				saldo = saldo + valorPorConta;
 			}
-			
+
 			br.close();
 			return saldo;
 		} catch (Exception e) {
@@ -200,16 +200,16 @@ public class Conta {
 			return 0;
 		}
 	}
-	
+
 	public double calcularMontanteDoBanco(double somatorioSaldoCorrentes, double somatorioSaldoPoupancas) {
 		double somatorioSaldoTodasAsContas = somatorioSaldoCorrentes + somatorioSaldoPoupancas;
 		return somatorioSaldoTodasAsContas;
 	}
-	
+
 	public String[] quebrarDadosEmIndicesVetor(String linhaDoDocumento) {
 		return linhaDoDocumento.replace(" ", "#").split("#");
 	}
-	
+
 	public boolean excluirConta(String caminho, Scanner ler, String tipoConta) {
 		try {
 			String caminhoTemporario = criarArquivoTemporario(caminho, tipoConta);
@@ -243,7 +243,7 @@ public class Conta {
 			return false;
 		}
 	}
-	
+
 	public void verificarSaldo(String caminho, Scanner ler) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(caminho));
@@ -261,7 +261,7 @@ public class Conta {
 					break;
 				}
 			}
-			
+
 			br.close();
 		} catch (Exception e) {
 			System.out.println("Erro no programa.");
@@ -301,7 +301,7 @@ public class Conta {
 
 			reescreverDadosNoArquivoOriginal(caminhoTemporario, caminho);
 			excluirArquivoTemporario(caminhoTemporario);
-			
+
 			return true;
 		} catch (Exception e) {
 			System.out.println("Erro no programa.");
@@ -313,6 +313,69 @@ public class Conta {
 		System.out.print("Digite o valor a ser depositado: ");
 		double valorDepositado = ler.nextDouble();
 		setSaldo(saldo + valorDepositado);
+	}
+
+	public boolean iniciarProcessoSaque(String caminho, Scanner ler, String tipoConta) {
+		try {
+			String caminhoTemporario = criarArquivoTemporario(caminho, tipoConta);
+
+			BufferedReader br = new BufferedReader(new FileReader(caminho));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoTemporario));
+
+			System.out.println("Digite o numero de cadastro da Conta de onde sera sacado: ");
+			String numeroCadastro = ler.nextLine();
+			String[] vetor;
+
+			while (br.ready()) {
+				br.ready();
+				String linha = br.readLine();
+				vetor = quebrarDadosEmIndicesVetor(linha);
+
+				if (vetor[0].equalsIgnoreCase(numeroCadastro)) {
+					double saldoAtual = Double.parseDouble(vetor[5]);
+					double limite = Double.parseDouble(vetor[4]);
+					sacar(saldoAtual, limite, ler, tipoConta);
+					bw.write(numeroCadastro + " " + vetor[1] + "#" + vetor[2] + "#" + vetor[3] + "#" + vetor[4] + "#"
+							+ getSaldo());
+					bw.newLine();
+
+				} else {
+					bw.write(linha);
+					bw.newLine();
+				}
+			}
+			br.close();
+			bw.close();
+
+			reescreverDadosNoArquivoOriginal(caminhoTemporario, caminho);
+			excluirArquivoTemporario(caminhoTemporario);
+
+			return true;
+		} catch (Exception e) {
+			System.out.println("Erro no programa.");
+			return false;
+		}
+	}
+
+	public void sacar(double saldoAtual, double limite, Scanner ler, String tipoConta) {
+		System.out.print("Digite o valor a ser sacado: ");
+		double valorSacado = ler.nextDouble();
+
+		if (tipoConta.equals("Corrente")) {
+			if (valorSacado <= saldoAtual + limite && valorSacado > 0) {
+				saldoAtual = saldoAtual - valorSacado;
+				setSaldo(saldoAtual);
+			} else {
+				System.out.println("Confira os valores e tente novamente.");
+			}
+		}else {
+			if (valorSacado <= saldoAtual && valorSacado > 0) {
+				saldoAtual = saldoAtual - valorSacado;
+				setSaldo(saldoAtual);
+			} else {
+				System.out.println("Confira os valores e tente novamente.");
+			}
+		}
 	}
 
 	public String getAgencia() {

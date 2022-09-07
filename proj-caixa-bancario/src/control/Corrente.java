@@ -109,64 +109,6 @@ public class Corrente extends Conta {
 		}
 	}
 
-	public boolean salvarSaque(String caminhoCorrente, Scanner ler) {
-		try {
-			String caminhoTemporario = criarArquivoTemporario(caminhoCorrente, "Corrente");
-
-			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));
-			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoTemporario));
-
-			System.out.println("Digite o numero de cadastro da Conta de onde sera sacado: ");
-			String numeroCadastro = ler.nextLine();
-			String[] vetor;
-
-			while (br.ready()) {
-				br.ready();
-				String linha = br.readLine();
-				vetor = quebrarDadosEmIndicesVetor(linha);
-
-				if (vetor[0].equalsIgnoreCase(numeroCadastro)) {
-					String auxSaldo = vetor[5];
-					String auxLimite = vetor[4];
-					sacar(auxSaldo, auxLimite, ler);
-					bw.write(numeroCadastro + " " + vetor[1] + "#" + vetor[2] + "#" + vetor[3] + "#" + vetor[4] + "#"
-							+ getSaldo());
-					bw.newLine();
-
-				} else {
-					bw.write(linha);
-					bw.newLine();
-				}
-			}
-			br.close();
-			bw.close();
-
-			reescreverDadosNoArquivoOriginal(caminhoTemporario, caminhoCorrente);
-			excluirArquivoTemporario(caminhoTemporario);
-			
-			return true;
-		} catch (Exception e) {
-			System.out.println("Erro no programa.");
-			return false;
-		}
-	}
-
-	public void sacar(String auxSaldo, String auxLimite, Scanner ler) {
-		System.out.print("Digite o valor a ser sacado: ");
-		String valorSacado = ler.nextLine();
-
-		double auxSal = Double.parseDouble(auxSaldo);
-		double auxLim = Double.parseDouble(auxLimite);
-		double i = Double.parseDouble(valorSacado);
-		if (i <= auxSal + auxLim && i > 0) {
-			auxSal = auxSal - i;
-			setSaldo(auxSal);
-			System.out.println("Novo saldo da conta: " + auxSal);
-		} else {
-			System.out.println("Comando invalido.");
-		}
-	}
-
 	public void exibirMaiorSaldo(String caminhoCorrente) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(caminhoCorrente));

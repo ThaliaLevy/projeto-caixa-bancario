@@ -52,7 +52,7 @@ public class Principal {
 								break;
 							}
 							case "2": {
-								retorno = (cc.salvarSaque(caminhoCorrente, ler) == true) ? "\nSaque realizado com sucesso!\n" : "\nErro. Saque nao realizado! \n";
+								retorno = (c.iniciarProcessoSaque(caminhoCorrente, ler, "Corrente") == true) ? "\nSaque realizado com sucesso!\n" : "\nErro. Saque nao realizado! \n";
 								System.out.println(retorno);
 								break;
 							}
@@ -142,7 +142,7 @@ public class Principal {
 								break;
 							}
 							case "2": {
-								retorno = (cp.salvarSaque(caminhoPoupanca, ler) == true) ? "\nSaque realizado com sucesso! \n" : "\nErro. Saque nao realizado!\n";
+								retorno = (c.iniciarProcessoSaque(caminhoPoupanca, ler, "Poupanca") == true) ? "\nSaque realizado com sucesso! \n" : "\nErro. Saque nao realizado!\n";
 								System.out.println(retorno);
 								break;
 							}
