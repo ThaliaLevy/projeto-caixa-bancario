@@ -57,7 +57,7 @@ public class Poupanca extends Conta {
 		System.out.print("Digite o valor do rendimento da Conta Poupanca: ");
 		setRendimento(Double.parseDouble(ler.nextLine()));
 	}
-	//refatorar
+
 	public boolean salvarPoupanca(String caminhoPoupanca) {
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoPoupanca, true));

@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Conta {
-	private String agencia, nrConta, titular; // refatorar: validar possibilidade de criar var tipoConta
+	private String agencia, nrConta, titular; 
 	private double saldo;
 	double contador = 0, menorSaldo = 0, maiorSaldo = 0;
 
